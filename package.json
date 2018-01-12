@@ -1,0 +1,25 @@
+{
+  "name": "atlas-brief",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joshr2020/Atlas-Brief.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joshr2020/Atlas-Brief/issues"
+  },
+  "homepage": "https://github.com/joshr2020/Atlas-Brief#readme",
+  "devDependencies": {
+    "webpack": "^3.10.0"
+  },
+  "dependencies": {
+    "leaflet": "^1.2.0"
+  }
+}
