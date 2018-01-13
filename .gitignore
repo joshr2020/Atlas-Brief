@@ -60,4 +60,6 @@ typings/
 # next.js build output
 .next
 
+# misc
 *.swp
+.DS_Store
