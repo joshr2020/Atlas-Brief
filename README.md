@@ -5,6 +5,7 @@
 1. First clone a version of this repository to your computer either using the command line or Github Desktop.
 2. Make sure you have node.js and npm installed on your computer. Install the webpack build tool with `sudo npm install -g webpack`.
 3. Then navigate to the directory where you cloned the project and install all dependencies using `npm install -d`.
+4. Make sure you have python3 installed on your computer. If you are on mac you can `brew install python3`. Navigate to the repository where you cloned the project and 
 
 Currently the HTML, CSS, GeoJSON, and bundled JavaScript files are in the `dist/` folder. The JavaScript source code is in `src`.
 
