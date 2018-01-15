@@ -19,7 +19,7 @@ IMPORTANT: By default, your browser will cache files served by our server. I don
 ## What we need to do
 - Backend
   - Write a program that takes our GeoJSON data in `dist/world.geo.json` and removes all irrelevant properties, with the ability to add new ones once we decide what information our map needs to hold. Will need to look up documentation on GeoJSON and its format and work with a JSON library in the chosen language.
-  - It's a little early, but we should think about a database schema for our articles, and learn how to work with it. There will be some serious learning here, but I suggest we go with a relational database for the learning experience, specifically SQLite, for its simplicity. If you want to go a different route, let me know, but either way, a lot of thinking and planning needs to be done here, and first we need to define out data model.
+  - It's a little early, but we should think about how we want to store our articles. I think a content management system like Drupal might be a good option, but I don't know too much in this area.
 
 - Styling
 
@@ -40,7 +40,3 @@ IMPORTANT: By default, your browser will cache files served by our server. I don
   - To learn, check out codecademy's short courses on HTML and CSS.
 
   - For review,  [Mozilla Developer Network](https://developer.mozilla.org/en-US/) is by far the best reference documentation out there.
-
-- Databases
-	- Codecademy has a short but decent SQL course
-	- Flask and Flask-SQLAlchemy tutorials
