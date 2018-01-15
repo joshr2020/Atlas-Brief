@@ -1,9 +1,9 @@
 const path = require("path");
 
 module.exports = {
-  entry: "./client/index.js",
+  entry: "./atlasbrief/mainsite/client/index.js",
   output: {
     filename: "bundle.js",
-    path: path.resolve(__dirname, "static")
+    path: path.resolve(__dirname, "atlasbrief/mainsite/static")
   }
 };

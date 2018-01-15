@@ -7,7 +7,7 @@ name = "pypi"
 
 [packages]
 
-flask = "*"
+django = "*"
 
 
 [dev-packages]

@@ -8,18 +8,18 @@
 4. Make sure you have python3 installed on your computer. If you are on mac you can `brew install python3`. Install the pipenv environment manager tool (if you haven't already) with `pip3 install pipenv`.
 5. Then navigate to the directory where you cloned the project and install all dependencies using `pipenv install -d`.
 
-The client-side source code (JavaScript) is in `client/`, the server-side source code (Python Flask) is in `server/` and the assets (bundled JavaScript, CSS, HTML, images, etc.) are in `static/`.
+The client-side source code (JavaScript) is in `atlasbrief/mainsite/client/` and the assets (bundled JavaScript, CSS, HTML, images, etc.) are in `atlasbrief/mainsite/static/`. `atlasbrief` is a Django project and `atlasbrief/mainsite` is the app `mainsite` that will serve the page that our users will see.
 
 One of the most important keys to productivity is tooling, which I have setup but you will need to hook your editor into. Talk to me about how to do it, it really helps!
 
-To try the application, bundle with JavaScript `npm run dev-build`. Or, you can open a separate  shell and type `npm run watch`. Leave this running, and it will rebundle your JavaScript every time you make a change. Then to launch the server, type `pipenv run python server`. Point your browser to `http://localhost:5000/`.
+To try the application, bundle with JavaScript `npm run dev-build`. Or, you can open a separate  shell and type `npm run watch`. Leave this running, and it will rebundle your JavaScript every time you make a change. Then to launch the server, type `python -m SimpleHTTPServer` (for now). Point your browser to `http://localhost:5000/`.
 
 IMPORTANT: By default, your browser will cache files served by our server. I don't know for other browser, but for Chrome or Opera, you need to disable the cache. Open developer tools (Right-click then Inspect Element), and choose the Network tab (may have to enlarge the developer tools pane to see it), then, near the top, check the box, disable cache (again may have to enlarge the tools pane). This will only stay like this when you have developer tools open, so keep that in mind. Let me know if you have questions.
 
 ## What we need to do
 - Backend
   - Write a program that takes our GeoJSON data in `dist/world.geo.json` and removes all irrelevant properties, with the ability to add new ones once we decide what information our map needs to hold. Will need to look up documentation on GeoJSON and its format and work with a JSON library in the chosen language.
-  - It's a little early, but we should think about how we want to store our articles. I think a content management system like Drupal might be a good option, but I don't know too much in this area.
+  - It's a little early, but we should think about how we want to store our articles. I think a content management system is the best way to do it, specifically with Wagtail, but feel free to look at other CMS solutions. This and the django server will be the hardest part, so we should get started early.
 
 - Styling
 
@@ -38,5 +38,7 @@ IMPORTANT: By default, your browser will cache files served by our server. I don
   - Check out the surprisingly readable [GeoJSON specification](http://geojson.org/geojson-spec.html) (the parts about geometries aren't really relevant to us though, so feel free to skip them). 
 - Basic HTML, CSS, and JavaScript
   - To learn, check out codecademy's short courses on HTML and CSS.
-
   - For review,  [Mozilla Developer Network](https://developer.mozilla.org/en-US/) is by far the best reference documentation out there.
+- Django and Wagtail
+	- The [Django docs](https://docs.djangoproject.com/en/2.0/) are excellent and have great tutorials.
+	- The [Wagtail website](https://wagtail.io/) is also great, but before you head straight to the documentation, try to get a feel for what a CMS is and why it might be useful for us.
