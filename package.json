@@ -2,7 +2,7 @@
     "name": "atlas-brief",
     "version": "1.0.0",
     "description": "Loading...",
-    "main": "client/index.js",
+    "main": "atlasbrief/mainsite/client/index.js",
     "scripts": {
         "build": "webpack --progress",
         "dev-build": "webpack --progress -d",
