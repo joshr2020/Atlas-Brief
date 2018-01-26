@@ -3,15 +3,15 @@ import $ from "jquery";
 
 import makeGeoLayer from "./geolayer";
 
-export default function makeMap() {
-  const map = L.map(`map`, {
+export default function makeMap(mapElement) {
+  const map = L.map(mapElement, {
     zoomSnap: 0.5,
     maxZoom: 7
-    //    maxBounds: [[-90, -180], [90, 180]]
   });
 
   // make sure view shows whole world
   map.setView([25, 0], 1.5);
+  console.log(map);
 
   $.getJSON("static/mainsite/world.geo.json").done(data =>
     makeGeoLayer(data).addTo(map)

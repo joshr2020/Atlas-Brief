@@ -8,10 +8,11 @@
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin=""/>
 
         {% load static %}
+        <link rel="stylesheet" href="{% static "mainsite/style.css" %}" />
         <script src="{% static "mainsite/bundle.js" %}" defer></script>
     </head>
 
     <body>
-        <div id="map" style="width: 600px; height: 400px;"></div>
+        <div id="root"></div>
     </body>
 </html>
