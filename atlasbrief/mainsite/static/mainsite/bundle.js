@@ -14812,9 +14812,41 @@ var Map = function (_React$Component) {
 
 var MenuBar = function MenuBar() {
   return _react2.default.createElement(
-    "h1",
+    "div",
     null,
-    "Hi"
+    _react2.default.createElement(
+      "h1",
+      null,
+      "Atlas Brief"
+    ),
+    _react2.default.createElement("input", {
+      type: "text",
+      name: "CountrySearchbar",
+      value: "Search for a country..."
+    }),
+    _react2.default.createElement(
+      "nav",
+      null,
+      _react2.default.createElement(
+        "div",
+        { className: "links" },
+        _react2.default.createElement(
+          "a",
+          { href: "#" },
+          "About"
+        ),
+        _react2.default.createElement(
+          "a",
+          { href: "#" },
+          "Staff"
+        ),
+        _react2.default.createElement(
+          "a",
+          { href: "#" },
+          "Contact"
+        )
+      )
+    )
   );
 };
 
@@ -14824,6 +14856,55 @@ var MapPage = function MapPage() {
     null,
     _react2.default.createElement(MenuBar, null),
     _react2.default.createElement(Map, null)
+  );
+};
+
+var CountryPage = function CountryPage() {
+  return (
+    /* modularize this later */
+    _react2.default.createElement(
+      "div",
+      null,
+      _react2.default.createElement(
+        "h1",
+        null,
+        "Country"
+      ),
+      _react2.default.createElement(
+        "p",
+        null,
+        "Background information on the country...",
+        _react2.default.createElement(
+          "a",
+          { href: "#" },
+          "Read more"
+        )
+      ),
+      _react2.default.createElement(
+        "h2",
+        null,
+        "Briefs"
+      ),
+      _react2.default.createElement(
+        "h3",
+        null,
+        "February 12, 2018"
+      ),
+      _react2.default.createElement(
+        "p",
+        null,
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"
+      ),
+      _react2.default.createElement("img", {
+        src: "https://www.solidaridadnetwork.org/sites/solidaridadnetwork.org/files/RegioSAm-new.JPG",
+        alt: "Region of the world"
+      }),
+      _react2.default.createElement(
+        "h2",
+        null,
+        "Essential facts"
+      )
+    )
   );
 };
 
