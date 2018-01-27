@@ -1,17 +1,49 @@
 import L from "leaflet";
 import $ from "jquery";
 
-import makeGeoLayer from "./geolayer";
+const hoverFeature = (e, feature) => {
+  // on mouseover, darken feature and show name (not done yet)
+  const layer = e.target;
 
-export default function makeMap(mapElement) {
-  const map = L.map(mapElement, {
+  layer.setStyle({
+    fillOpacity: 1
+  });
+};
+
+const makeGeoLayer = data => {
+  const geoLayer = L.geoJSON(data, {
+    style: feature => ({
+      fillColor: `#FD8D3C`,
+      weight: 1.25,
+      opacity: 1,
+      color: `white`,
+      dashArray: `3`,
+      fillOpacity: 0.7
+    }),
+    onEachFeature: (feature, layer) =>
+      layer.on({
+        mouseover: e => hoverFeature(e, feature),
+        mouseout: e => geoLayer.resetStyle(e.target),
+        click: e =>
+          document.dispatchEvent(
+            new CustomEvent(`countryClicked`, {
+              name: feature.properties.name
+            })
+          )
+      })
+  });
+  return geoLayer;
+};
+
+const makeMap = () => {
+  const map = L.map(`map`, {
     zoomSnap: 0.5,
     maxZoom: 7
+    //    maxBounds: [[-90, -180], [90, 180]]
   });
 
   // make sure view shows whole world
   map.setView([25, 0], 1.5);
-  console.log(map);
 
   $.getJSON("static/mainsite/world.geo.json").done(data =>
     makeGeoLayer(data).addTo(map)
@@ -27,15 +59,6 @@ export default function makeMap(mapElement) {
       zIndex: 650
     }
   ).addTo(map);
+};
 
-  /*L.tileLayer(
-  "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}",
-  {
-    id: "mapbox.light",
-    accessToken:
-      "pk.eyJ1Ijoic3Rld3kzMyIsImEiOiJjamNiN3ZkbTgwbnVrMnFtNjB0bHJ6bWdzIn0.aJrxPmXOJq0hX4BqJZJzVQ",
-    attribution:
-      "Map data &copy; <a href='http://openstreetmap.org'>OpenStreetMap</a> contributors, <a href='http://creativecommons.org/licenses/by-sa/2.0/'>CC-BY-SA</a>, Imagery © <a href='http://mapbox.com'>Mapbox</a>"
-  }
-).addTo(map);*/
-}
+export default makeMap;
