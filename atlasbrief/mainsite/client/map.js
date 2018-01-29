@@ -45,7 +45,7 @@ const makeMap = () => {
   // make sure view shows whole world
   map.setView([25, 0], 1.5);
 
-  $.getJSON("static/mainsite/world.geo.json").done(data =>
+  $.getJSON(`static/mainsite/world.geo.json`).done(data =>
     makeGeoLayer(data).addTo(map)
   );
 

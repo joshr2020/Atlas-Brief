@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 15);
+/******/ 	return __webpack_require__(__webpack_require__.s = 14);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -424,9 +424,9 @@ module.exports = emptyObject;
 /* WEBPACK VAR INJECTION */(function(process) {
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(16);
+  module.exports = __webpack_require__(15);
 } else {
-  module.exports = __webpack_require__(17);
+  module.exports = __webpack_require__(16);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
@@ -577,7 +577,7 @@ module.exports = warning;
 if (process.env.NODE_ENV !== 'production') {
   var invariant = __webpack_require__(5);
   var warning = __webpack_require__(6);
-  var ReactPropTypesSecret = __webpack_require__(18);
+  var ReactPropTypesSecret = __webpack_require__(17);
   var loggedTypeFailures = {};
 }
 
@@ -876,7 +876,7 @@ module.exports = shallowEqual;
  * 
  */
 
-var isTextNode = __webpack_require__(21);
+var isTextNode = __webpack_require__(20);
 
 /*eslint-disable no-bitwise */
 
@@ -934,8 +934,7 @@ function focusNode(node) {
 module.exports = focusNode;
 
 /***/ }),
-/* 14 */,
-/* 15 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -947,11 +946,11 @@ var _react = __webpack_require__(4);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(19);
+var _reactDom = __webpack_require__(18);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _map = __webpack_require__(28);
+var _map = __webpack_require__(27);
 
 var _map2 = _interopRequireDefault(_map);
 
@@ -1023,7 +1022,7 @@ var MapPage = function MapPage() {
 _reactDom2.default.render(_react2.default.createElement(MapPage, null), document.getElementById("root"));
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1051,7 +1050,7 @@ isValidElement:K,version:"16.2.0",__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_F
 
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2416,7 +2415,7 @@ module.exports = react;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2435,7 +2434,7 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2473,15 +2472,15 @@ if (process.env.NODE_ENV === 'production') {
   // DCE check should happen before ReactDOM bundle executes so that
   // DevTools can report bad minification during injection.
   checkDCE();
-  module.exports = __webpack_require__(20);
+  module.exports = __webpack_require__(19);
 } else {
-  module.exports = __webpack_require__(23);
+  module.exports = __webpack_require__(22);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2717,7 +2716,7 @@ Z.injectIntoDevTools({findFiberByHostInstance:pb,bundleType:0,version:"16.2.0",r
 
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2732,7 +2731,7 @@ Z.injectIntoDevTools({findFiberByHostInstance:pb,bundleType:0,version:"16.2.0",r
  * @typechecks
  */
 
-var isNode = __webpack_require__(22);
+var isNode = __webpack_require__(21);
 
 /**
  * @param {*} object The object to check.
@@ -2745,7 +2744,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ }),
-/* 22 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2773,7 +2772,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ }),
-/* 23 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2807,8 +2806,8 @@ var containsNode = __webpack_require__(12);
 var focusNode = __webpack_require__(13);
 var emptyObject = __webpack_require__(3);
 var checkPropTypes = __webpack_require__(7);
-var hyphenateStyleName = __webpack_require__(24);
-var camelizeStyleName = __webpack_require__(26);
+var hyphenateStyleName = __webpack_require__(23);
+var camelizeStyleName = __webpack_require__(25);
 
 /**
  * WARNING: DO NOT manually require this module.
@@ -18175,7 +18174,7 @@ module.exports = reactDom;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 24 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18190,7 +18189,7 @@ module.exports = reactDom;
 
 
 
-var hyphenate = __webpack_require__(25);
+var hyphenate = __webpack_require__(24);
 
 var msPattern = /^ms-/;
 
@@ -18217,7 +18216,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18253,7 +18252,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18268,7 +18267,7 @@ module.exports = hyphenate;
 
 
 
-var camelize = __webpack_require__(27);
+var camelize = __webpack_require__(26);
 
 var msPattern = /^-ms-/;
 
@@ -18296,7 +18295,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ }),
-/* 27 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18331,7 +18330,7 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 28 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18341,11 +18340,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _leaflet = __webpack_require__(29);
+var _leaflet = __webpack_require__(28);
 
 var _leaflet2 = _interopRequireDefault(_leaflet);
 
-var _jquery = __webpack_require__(33);
+var _jquery = __webpack_require__(29);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
@@ -18417,7 +18416,7 @@ var makeMap = function makeMap() {
 exports.default = makeMap;
 
 /***/ }),
-/* 29 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* @preserve
@@ -32225,10 +32224,7 @@ exports.map = createMap;
 
 
 /***/ }),
-/* 30 */,
-/* 31 */,
-/* 32 */,
-/* 33 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
