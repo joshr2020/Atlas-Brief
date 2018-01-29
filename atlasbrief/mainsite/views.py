@@ -12,4 +12,4 @@ def profile(request, country_name):
     country = get_object_or_404(Country, name=country_name)
     tag = country.tag
     briefs = tag.brief_set.all()
-    return JsonResponse({'background': country.background, 'stats': country.stats, 'briefs': briefs})
+    return JsonResponse({'background': country.background, 'stats': country.stats})
