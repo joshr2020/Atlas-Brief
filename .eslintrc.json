@@ -16,5 +16,8 @@
     "plugins": [
         "jquery",
         "react"
-    ]
+    ],
+    "rules": {
+        "import/extensions": "always"
+    }
 }

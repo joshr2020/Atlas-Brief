@@ -1,10 +1,10 @@
 import L from "leaflet";
-import $ from "jquery";
+
+let geojson;
 
 const hoverFeature = (e, feature) => {
   // on mouseover, darken feature and show name (not done yet)
   const layer = e.target;
-
   layer.setStyle({
     fillOpacity: 1
   });
@@ -27,7 +27,7 @@ const makeGeoLayer = data => {
         click: e =>
           document.dispatchEvent(
             new CustomEvent(`countryClicked`, {
-              name: feature.properties.name
+              detail: { name: feature.properties.name }
             })
           )
       })
@@ -35,19 +35,28 @@ const makeGeoLayer = data => {
   return geoLayer;
 };
 
-const makeMap = () => {
-  const map = L.map(`map`, {
+const makeMap = parentElement => {
+  const map = L.map(parentElement, {
     zoomSnap: 0.5,
     maxZoom: 7
+    //    this would prevent the user from panning the map beyond certain
+    //    boundaries
     //    maxBounds: [[-90, -180], [90, 180]]
   });
 
-  // make sure view shows whole world
-  map.setView([25, 0], 1.5);
-
-  $.getJSON(`static/mainsite/world.geo.json`).done(data =>
-    makeGeoLayer(data).addTo(map)
-  );
+  // get geojson the first time map is rendered
+  if (geojson === undefined) {
+    const request = new XMLHttpRequest();
+    request.open(`GET`, `static/mainsite/world.geo.json`);
+    request.responseType = `json`;
+    request.send();
+    request.onload = () => {
+      geojson = request.response;
+      makeGeoLayer(geojson).addTo(map);
+    };
+  } else {
+    makeGeoLayer(geojson).addTo(map);
+  }
 
   // set up label layer
   map.createPane(`labels`);
@@ -59,6 +68,61 @@ const makeMap = () => {
       zIndex: 650
     }
   ).addTo(map);
+
+  return map;
 };
 
-export default makeMap;
+const zoomToCountry = (name, map) => {
+  // go through array of countries in geojson returning one with correct name
+  const countryFeature = geojson.features.find(
+    element => element.properties.name === name
+  );
+
+  // collapse array of polygons in country to an array of points
+  const allPoints = countryFeature.geometry.coordinates.reduce(
+    (acc, x) => acc.concat(x[0]),
+    []
+  );
+
+  // find most extreme points of country to be able to fit the whole country on
+  // screen
+  const startingAccumulator = {
+    northernmost: -Infinity,
+    southernmost: Infinity,
+    easternmost: -Infinity,
+    westernmost: Infinity
+  };
+
+  const extremes = allPoints.reduce((acc, point) => {
+    const lat = point[0];
+    const long = point[1];
+
+    acc.northernmost = Math.max(lat, acc.northernmost);
+    acc.southernmost = Math.min(lat, acc.southernmost);
+    acc.easternmost = Math.max(long, acc.easternmost);
+    acc.westernmost = Math.min(long, acc.westernmost);
+
+    return acc;
+  }, startingAccumulator);
+
+  console.log(extremes);
+
+  map.fitBounds([
+    [extremes.southernmost, extremes.westernmost],
+    [extremes.northernmost, extremes.easternmost]
+  ]);
+};
+
+exports.renderMap = (parentElement, viewCountry) => {
+  const map = makeMap(parentElement);
+
+  // no country specified to zoom in on, so show whole world
+  if (viewCountry === null) {
+    map.setView([25, 0], 1.5);
+  } else {
+    map.setView([25, 0], 1.5);
+    //zoomToCountry(viewCountry, map);
+  }
+
+  return map;
+};

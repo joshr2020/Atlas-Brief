@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Map from "./map-component.jsx";
 
+import "../scss/main.scss";
+
 const MenuBar = () => (
   <div>
     <h1>Atlas Brief</h1>

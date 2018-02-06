@@ -1,0 +1,12 @@
+@import "~bulma";
+
+$blue: #72d0eb;
+$family-serif: "Merriweather", "Georgia", serif;
+
+$primary: $blue;
+$family-primary: $family-serif;
+
+#map {
+    width: 600px;
+    height: 400px;
+}
