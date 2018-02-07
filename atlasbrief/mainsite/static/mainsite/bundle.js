@@ -954,6 +954,8 @@ var _mapComponent = __webpack_require__(27);
 
 var _mapComponent2 = _interopRequireDefault(_mapComponent);
 
+__webpack_require__(30);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -18611,7 +18613,7 @@ var zoomToCountry = function zoomToCountry(name, map) {
 
   console.log(extremes);
 
-  map.setView([25, 0], 1.5);
+  map.fitBounds([[extremes.southernmost, extremes.westernmost], [extremes.northernmost, extremes.easternmost]]);
 };
 
 exports.renderMap = function (parentElement, viewCountry) {
@@ -18621,7 +18623,8 @@ exports.renderMap = function (parentElement, viewCountry) {
   if (viewCountry === null) {
     map.setView([25, 0], 1.5);
   } else {
-    zoomToCountry(viewCountry, map);
+    map.setView([25, 0], 1.5);
+    //zoomToCountry(viewCountry, map);
   }
 
   return map;
@@ -32434,6 +32437,12 @@ exports.map = createMap;
 })));
 //# sourceMappingURL=leaflet-src.js.map
 
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
