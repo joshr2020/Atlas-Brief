@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
+
 import Map from "./map-component.jsx";
+import CountryPage from "./countrypage.jsx";
 
 import "../scss/main.scss";
 
@@ -28,30 +30,6 @@ const MapPage = () => (
     <Map viewCountry={null} />
   </div>
 );
-
-const CountryPage = props => {
-  const country = props.countryInfo;
-  return (
-    <div>
-      <h1>Country</h1>
-      <p>
-        {country.background}
-        <a href="#">Read more</a>
-      </p>
-
-      <h2>Briefs</h2>
-      <h3>February 12, 2018</h3>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat
-      </p>
-      <Map viewCountry={country.name} />
-      <h2>Essential facts</h2>
-    </div>
-  );
-};
 
 class App extends React.Component {
   constructor() {

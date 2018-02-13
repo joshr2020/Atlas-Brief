@@ -954,7 +954,11 @@ var _mapComponent = __webpack_require__(27);
 
 var _mapComponent2 = _interopRequireDefault(_mapComponent);
 
-__webpack_require__(30);
+var _countrypage = __webpack_require__(30);
+
+var _countrypage2 = _interopRequireDefault(_countrypage);
+
+__webpack_require__(31);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1013,50 +1017,6 @@ var MapPage = function MapPage() {
   );
 };
 
-var CountryPage = function CountryPage(props) {
-  var country = props.countryInfo;
-  return _react2.default.createElement(
-    "div",
-    null,
-    _react2.default.createElement(
-      "h1",
-      null,
-      "Country"
-    ),
-    _react2.default.createElement(
-      "p",
-      null,
-      country.background,
-      _react2.default.createElement(
-        "a",
-        { href: "#" },
-        "Read more"
-      )
-    ),
-    _react2.default.createElement(
-      "h2",
-      null,
-      "Briefs"
-    ),
-    _react2.default.createElement(
-      "h3",
-      null,
-      "February 12, 2018"
-    ),
-    _react2.default.createElement(
-      "p",
-      null,
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"
-    ),
-    _react2.default.createElement(_mapComponent2.default, { viewCountry: country.name }),
-    _react2.default.createElement(
-      "h2",
-      null,
-      "Essential facts"
-    )
-  );
-};
-
 var App = function (_React$Component) {
   _inherits(App, _React$Component);
 
@@ -1105,7 +1065,7 @@ var App = function (_React$Component) {
       }
 
       // otherwise, show CountryPage
-      return _react2.default.createElement(CountryPage, { countryInfo: this.state.countryInfo });
+      return _react2.default.createElement(_countrypage2.default, { countryInfo: this.state.countryInfo });
     }
   }]);
 
@@ -32440,9 +32400,124 @@ exports.map = createMap;
 
 /***/ }),
 /* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _brief = __webpack_require__(33);
+
+var _brief2 = _interopRequireDefault(_brief);
+
+var _mapComponent = __webpack_require__(27);
+
+var _mapComponent2 = _interopRequireDefault(_mapComponent);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var CountryPage = function CountryPage(props) {
+  return _react2.default.createElement(
+    "div",
+    null,
+    _react2.default.createElement(
+      "h1",
+      null,
+      props.countryInfo.name
+    ),
+    _react2.default.createElement(
+      "p",
+      null,
+      props.countryInfo.background,
+      _react2.default.createElement(
+        "a",
+        { href: "#" },
+        "Read more"
+      )
+    ),
+    _react2.default.createElement(
+      "h2",
+      null,
+      "Briefs"
+    ),
+    JSON.parse(props.countryInfo.briefs).map(function (brief, index) {
+      return _react2.default.createElement(_brief2.default, { key: index, content: brief.fields });
+    }),
+    _react2.default.createElement(
+      "h3",
+      null,
+      "February 12, 2018"
+    ),
+    _react2.default.createElement(
+      "p",
+      null,
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"
+    ),
+    _react2.default.createElement(_mapComponent2.default, { viewCountry: props.countryInfo.name }),
+    _react2.default.createElement(
+      "h2",
+      null,
+      "Essential facts"
+    )
+  );
+};
+
+exports.default = CountryPage;
+
+/***/ }),
+/* 31 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 32 */,
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Brief = function Brief(props) {
+  return _react2.default.createElement(
+    "div",
+    null,
+    _react2.default.createElement(
+      "h3",
+      null,
+      props.content.title
+    ),
+    _react2.default.createElement(
+      "p",
+      null,
+      props.content.author
+    ),
+    _react2.default.createElement(
+      "p",
+      null,
+      props.content.content
+    )
+  );
+};
+
+exports.default = Brief;
 
 /***/ })
 /******/ ]);
