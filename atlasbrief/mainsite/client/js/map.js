@@ -1,24 +1,26 @@
 import L from "leaflet";
 
+import "../scss/main.scss";
+
 let geojson;
 
 const hoverFeature = (e, feature) => {
   // on mouseover, darken feature and show name (not done yet)
   const layer = e.target;
   layer.setStyle({
-    fillOpacity: 1
+    fillColor: `#5190da`
   });
 };
 
 const makeGeoLayer = data => {
   const geoLayer = L.geoJSON(data, {
     style: feature => ({
-      fillColor: `#FD8D3C`,
+      fillColor: `#5295e4`,
       weight: 1.25,
       opacity: 1,
       color: `white`,
       dashArray: `3`,
-      fillOpacity: 0.7
+      fillOpacity: 1
     }),
     onEachFeature: (feature, layer) =>
       layer.on({
