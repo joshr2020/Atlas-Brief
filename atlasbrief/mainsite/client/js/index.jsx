@@ -1,35 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import Map from "./map-component.jsx";
+import MapPage from "./mappage.jsx";
 import CountryPage from "./countrypage.jsx";
-
-import "../scss/main.scss";
-
-const MenuBar = () => (
-  <div>
-    <h1>Atlas Brief</h1>
-    <input
-      type="text"
-      name="CountrySearchbar"
-      defaultValue="Search for a country..."
-    />
-    <nav>
-      <div className="links">
-        <a href="#">About</a>
-        <a href="#">Staff</a>
-        <a href="#">Contact</a>
-      </div>
-    </nav>
-  </div>
-);
-
-const MapPage = () => (
-  <div>
-    <MenuBar />
-    <Map viewCountry={null} />
-  </div>
-);
 
 class App extends React.Component {
   constructor() {
@@ -54,9 +27,11 @@ class App extends React.Component {
     request.send();
 
     request.onload = () => {
-      const newState = { countryInfo: request.response };
-      newState.countryInfo.name = e.detail.name;
-      this.setState(newState);
+      if (request.response !== null) {
+        const newState = { countryInfo: request.response };
+        newState.countryInfo.name = e.detail.name;
+        this.setState(newState);
+      }
     };
   }
 

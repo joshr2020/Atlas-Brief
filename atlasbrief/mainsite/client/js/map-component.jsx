@@ -2,7 +2,7 @@ import React from "react";
 
 import { renderMap } from "./map.js";
 
-export default class Map extends React.Component {
+class Map extends React.Component {
   componentDidMount() {
     this.map = renderMap(this.el, this.props.viewCountry);
   }
@@ -24,3 +24,5 @@ export default class Map extends React.Component {
     );
   }
 }
+
+export default Map;

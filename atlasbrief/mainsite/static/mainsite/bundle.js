@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 16);
+/******/ 	return __webpack_require__(__webpack_require__.s = 17);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -261,9 +261,9 @@ process.umask = function() { return 0; };
 /* WEBPACK VAR INJECTION */(function(process) {
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(17);
-} else {
   module.exports = __webpack_require__(18);
+} else {
+  module.exports = __webpack_require__(19);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
@@ -433,6 +433,12 @@ module.exports = emptyObject;
 
 /***/ }),
 /* 5 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -492,7 +498,7 @@ module.exports = invariant;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -561,12 +567,6 @@ module.exports = warning;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -581,9 +581,9 @@ module.exports = warning;
 
 
 if (process.env.NODE_ENV !== 'production') {
-  var invariant = __webpack_require__(5);
-  var warning = __webpack_require__(6);
-  var ReactPropTypesSecret = __webpack_require__(19);
+  var invariant = __webpack_require__(6);
+  var warning = __webpack_require__(7);
+  var ReactPropTypesSecret = __webpack_require__(20);
   var loggedTypeFailures = {};
 }
 
@@ -882,7 +882,7 @@ module.exports = shallowEqual;
  * 
  */
 
-var isTextNode = __webpack_require__(22);
+var isTextNode = __webpack_require__(23);
 
 /*eslint-disable no-bitwise */
 
@@ -946,6 +946,152 @@ module.exports = focusNode;
 "use strict";
 
 
+var _leaflet = __webpack_require__(33);
+
+var _leaflet2 = _interopRequireDefault(_leaflet);
+
+__webpack_require__(5);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var geojson = void 0;
+
+var getGeojson = new Promise(function (resolve, reject) {
+  if (geojson === undefined) {
+    var request = new XMLHttpRequest();
+    request.open("GET", "static/mainsite/world.geo.json");
+    request.responseType = "json";
+    request.send();
+    request.onload = function () {
+      geojson = request.response;
+      resolve(geojson);
+    };
+  } else {
+    resolve(geojson);
+  }
+});
+exports.getGeojson = getGeojson;
+
+var hoverFeature = function hoverFeature(e, feature) {
+  // on mouseover, darken feature and show name (not done yet)
+  var layer = e.target;
+  layer.setStyle({
+    fillColor: "#5190da"
+  });
+};
+
+var makeGeoLayer = function makeGeoLayer(data) {
+  var geoLayer = _leaflet2.default.geoJSON(data, {
+    style: function style(feature) {
+      return {
+        fillColor: "#5295e4",
+        weight: 1.25,
+        opacity: 1,
+        color: "white",
+        dashArray: "3",
+        fillOpacity: 1
+      };
+    },
+    onEachFeature: function onEachFeature(feature, layer) {
+      return layer.on({
+        mouseover: function mouseover(e) {
+          return hoverFeature(e, feature);
+        },
+        mouseout: function mouseout(e) {
+          return geoLayer.resetStyle(e.target);
+        },
+        click: function click(e) {
+          return document.dispatchEvent(new CustomEvent("countryClicked", {
+            detail: { name: feature.properties.name }
+          }));
+        }
+      });
+    }
+  });
+  return geoLayer;
+};
+
+var makeMap = function makeMap(parentElement) {
+  var map = _leaflet2.default.map(parentElement, {
+    zoomSnap: 0.5,
+    maxZoom: 7
+    //    this would prevent the user from panning the map beyond certain
+    //    boundaries
+    //    maxBounds: [[-90, -180], [90, 180]]
+  });
+
+  getGeojson.then(function (data) {
+    return makeGeoLayer(data).addTo(map);
+  });
+
+  // set up label layer
+  map.createPane("labels");
+  _leaflet2.default.tileLayer("http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png", {
+    attribution: "\xA9OpenStreetMap, \xA9CartoDB",
+    pane: "labels",
+    zIndex: 650
+  }).addTo(map);
+
+  return map;
+};
+
+var zoomToCountry = function zoomToCountry(name, map) {
+  // go through array of countries in geojson returning one with correct name
+  var countryFeature = geojson.features.find(function (element) {
+    return element.properties.name === name;
+  });
+
+  // collapse array of polygons in country to an array of points
+  var allPoints = countryFeature.geometry.coordinates.reduce(function (acc, x) {
+    return acc.concat(x[0]);
+  }, []);
+
+  // find most extreme points of country to be able to fit the whole country on
+  // screen
+  var startingAccumulator = {
+    northernmost: -Infinity,
+    southernmost: Infinity,
+    easternmost: -Infinity,
+    westernmost: Infinity
+  };
+
+  var extremes = allPoints.reduce(function (acc, point) {
+    var lat = point[0];
+    var long = point[1];
+    acc.northernmost = Math.max(lat, acc.northernmost);
+    acc.southernmost = Math.min(lat, acc.southernmost);
+    acc.easternmost = Math.max(long, acc.easternmost);
+    acc.westernmost = Math.min(long, acc.westernmost);
+
+    return acc;
+  }, startingAccumulator);
+
+  console.log(extremes);
+
+  map.fitBounds([[extremes.southernmost, extremes.westernmost], [extremes.northernmost, extremes.easternmost]]);
+};
+
+exports.renderMap = function (parentElement, viewCountry) {
+  var map = makeMap(parentElement);
+
+  // no country specified to zoom in on, so show whole world
+  if (viewCountry === null) {
+    map.setView([25, 0], 1.5);
+  } else {
+    map.setView([25, 0], 1.5);
+    //zoomToCountry(viewCountry, map);
+  }
+
+  return map;
+};
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -956,7 +1102,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _map = __webpack_require__(29);
+var _map = __webpack_require__(15);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1009,7 +1155,7 @@ var Map = function (_React$Component) {
 exports.default = Map;
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1021,19 +1167,17 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(20);
+var _reactDom = __webpack_require__(21);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _mapComponent = __webpack_require__(15);
+var _mappage = __webpack_require__(30);
 
-var _mapComponent2 = _interopRequireDefault(_mapComponent);
+var _mappage2 = _interopRequireDefault(_mappage);
 
-var _countrypage = __webpack_require__(31);
+var _countrypage = __webpack_require__(34);
 
 var _countrypage2 = _interopRequireDefault(_countrypage);
-
-__webpack_require__(7);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1042,55 +1186,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var MenuBar = function MenuBar() {
-  return _react2.default.createElement(
-    "div",
-    null,
-    _react2.default.createElement(
-      "h1",
-      null,
-      "Atlas Brief"
-    ),
-    _react2.default.createElement("input", {
-      type: "text",
-      name: "CountrySearchbar",
-      defaultValue: "Search for a country..."
-    }),
-    _react2.default.createElement(
-      "nav",
-      null,
-      _react2.default.createElement(
-        "div",
-        { className: "links" },
-        _react2.default.createElement(
-          "a",
-          { href: "#" },
-          "About"
-        ),
-        _react2.default.createElement(
-          "a",
-          { href: "#" },
-          "Staff"
-        ),
-        _react2.default.createElement(
-          "a",
-          { href: "#" },
-          "Contact"
-        )
-      )
-    )
-  );
-};
-
-var MapPage = function MapPage() {
-  return _react2.default.createElement(
-    "div",
-    null,
-    _react2.default.createElement(MenuBar, null),
-    _react2.default.createElement(_mapComponent2.default, { viewCountry: null })
-  );
-};
 
 var App = function (_React$Component) {
   _inherits(App, _React$Component);
@@ -1127,16 +1222,18 @@ var App = function (_React$Component) {
       request.send();
 
       request.onload = function () {
-        var newState = { countryInfo: request.response };
-        newState.countryInfo.name = e.detail.name;
-        _this2.setState(newState);
+        if (request.response !== null) {
+          var newState = { countryInfo: request.response };
+          newState.countryInfo.name = e.detail.name;
+          _this2.setState(newState);
+        }
       };
     }
   }, {
     key: "render",
     value: function render() {
       if (this.state.countryInfo === null) {
-        return _react2.default.createElement(MapPage, null);
+        return _react2.default.createElement(_mappage2.default, null);
       }
 
       // otherwise, show CountryPage
@@ -1150,7 +1247,7 @@ var App = function (_React$Component) {
 _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById("root"));
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1178,7 +1275,7 @@ isValidElement:K,version:"16.2.0",__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_F
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1201,8 +1298,8 @@ if (process.env.NODE_ENV !== "production") {
 
 var _assign = __webpack_require__(3);
 var emptyObject = __webpack_require__(4);
-var invariant = __webpack_require__(5);
-var warning = __webpack_require__(6);
+var invariant = __webpack_require__(6);
+var warning = __webpack_require__(7);
 var emptyFunction = __webpack_require__(2);
 var checkPropTypes = __webpack_require__(8);
 
@@ -2543,7 +2640,7 @@ module.exports = react;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2562,7 +2659,7 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2600,15 +2697,15 @@ if (process.env.NODE_ENV === 'production') {
   // DCE check should happen before ReactDOM bundle executes so that
   // DevTools can report bad minification during injection.
   checkDCE();
-  module.exports = __webpack_require__(21);
+  module.exports = __webpack_require__(22);
 } else {
-  module.exports = __webpack_require__(24);
+  module.exports = __webpack_require__(25);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2844,7 +2941,7 @@ Z.injectIntoDevTools({findFiberByHostInstance:pb,bundleType:0,version:"16.2.0",r
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2859,7 +2956,7 @@ Z.injectIntoDevTools({findFiberByHostInstance:pb,bundleType:0,version:"16.2.0",r
  * @typechecks
  */
 
-var isNode = __webpack_require__(23);
+var isNode = __webpack_require__(24);
 
 /**
  * @param {*} object The object to check.
@@ -2872,7 +2969,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2900,7 +2997,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2922,8 +3019,8 @@ if (process.env.NODE_ENV !== "production") {
 'use strict';
 
 var React = __webpack_require__(1);
-var invariant = __webpack_require__(5);
-var warning = __webpack_require__(6);
+var invariant = __webpack_require__(6);
+var warning = __webpack_require__(7);
 var ExecutionEnvironment = __webpack_require__(9);
 var _assign = __webpack_require__(3);
 var emptyFunction = __webpack_require__(2);
@@ -2934,8 +3031,8 @@ var containsNode = __webpack_require__(13);
 var focusNode = __webpack_require__(14);
 var emptyObject = __webpack_require__(4);
 var checkPropTypes = __webpack_require__(8);
-var hyphenateStyleName = __webpack_require__(25);
-var camelizeStyleName = __webpack_require__(27);
+var hyphenateStyleName = __webpack_require__(26);
+var camelizeStyleName = __webpack_require__(28);
 
 /**
  * WARNING: DO NOT manually require this module.
@@ -18302,7 +18399,7 @@ module.exports = reactDom;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18317,7 +18414,7 @@ module.exports = reactDom;
 
 
 
-var hyphenate = __webpack_require__(26);
+var hyphenate = __webpack_require__(27);
 
 var msPattern = /^ms-/;
 
@@ -18344,7 +18441,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18380,7 +18477,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18395,7 +18492,7 @@ module.exports = hyphenate;
 
 
 
-var camelize = __webpack_require__(28);
+var camelize = __webpack_require__(29);
 
 var msPattern = /^-ms-/;
 
@@ -18423,7 +18520,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18458,148 +18555,191 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _leaflet = __webpack_require__(30);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-var _leaflet2 = _interopRequireDefault(_leaflet);
+var _react = __webpack_require__(1);
 
-__webpack_require__(7);
+var _react2 = _interopRequireDefault(_react);
+
+var _countrysearchbar = __webpack_require__(31);
+
+var _countrysearchbar2 = _interopRequireDefault(_countrysearchbar);
+
+var _mapComponent = __webpack_require__(16);
+
+var _mapComponent2 = _interopRequireDefault(_mapComponent);
+
+__webpack_require__(5);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var geojson = void 0;
-
-var hoverFeature = function hoverFeature(e, feature) {
-  // on mouseover, darken feature and show name (not done yet)
-  var layer = e.target;
-  layer.setStyle({
-    fillColor: "#5190da"
-  });
+var NavBar = function NavBar() {
+  return _react2.default.createElement(
+    "nav",
+    { className: "navbar" },
+    _react2.default.createElement(
+      "div",
+      { className: "container" },
+      _react2.default.createElement(
+        "div",
+        { className: "navbar-brand" },
+        _react2.default.createElement(
+          "h1",
+          null,
+          "Atlas Brief"
+        )
+      ),
+      _react2.default.createElement(
+        "div",
+        { className: "navbar-menu" },
+        _react2.default.createElement(
+          "div",
+          { className: "navbar-start" },
+          _react2.default.createElement(
+            "div",
+            { className: "navbar-item" },
+            _react2.default.createElement(_countrysearchbar2.default, null)
+          )
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "navbar-end" },
+          _react2.default.createElement(
+            "a",
+            { href: "#", className: "navbar-item" },
+            "About"
+          ),
+          _react2.default.createElement(
+            "a",
+            { href: "#", className: "navbar-item" },
+            "Contact"
+          )
+        )
+      )
+    )
+  );
 };
 
-var makeGeoLayer = function makeGeoLayer(data) {
-  var geoLayer = _leaflet2.default.geoJSON(data, {
-    style: function style(feature) {
-      return {
-        fillColor: "#5295e4",
-        weight: 1.25,
-        opacity: 1,
-        color: "white",
-        dashArray: "3",
-        fillOpacity: 1
-      };
-    },
-    onEachFeature: function onEachFeature(feature, layer) {
-      return layer.on({
-        mouseover: function mouseover(e) {
-          return hoverFeature(e, feature);
-        },
-        mouseout: function mouseout(e) {
-          return geoLayer.resetStyle(e.target);
-        },
-        click: function click(e) {
-          return document.dispatchEvent(new CustomEvent("countryClicked", {
-            detail: { name: feature.properties.name }
-          }));
-        }
-      });
-    }
-  });
-  return geoLayer;
+var MapPage = function MapPage() {
+  return _react2.default.createElement(
+    "div",
+    null,
+    _react2.default.createElement(NavBar, null),
+    _react2.default.createElement(_mapComponent2.default, { viewCountry: null })
+  );
 };
 
-var makeMap = function makeMap(parentElement) {
-  var map = _leaflet2.default.map(parentElement, {
-    zoomSnap: 0.5,
-    maxZoom: 7
-    //    this would prevent the user from panning the map beyond certain
-    //    boundaries
-    //    maxBounds: [[-90, -180], [90, 180]]
-  });
-
-  // get geojson the first time map is rendered
-  if (geojson === undefined) {
-    var request = new XMLHttpRequest();
-    request.open("GET", "static/mainsite/world.geo.json");
-    request.responseType = "json";
-    request.send();
-    request.onload = function () {
-      geojson = request.response;
-      makeGeoLayer(geojson).addTo(map);
-    };
-  } else {
-    makeGeoLayer(geojson).addTo(map);
-  }
-
-  // set up label layer
-  map.createPane("labels");
-  _leaflet2.default.tileLayer("http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png", {
-    attribution: "\xA9OpenStreetMap, \xA9CartoDB",
-    pane: "labels",
-    zIndex: 650
-  }).addTo(map);
-
-  return map;
-};
-
-var zoomToCountry = function zoomToCountry(name, map) {
-  // go through array of countries in geojson returning one with correct name
-  var countryFeature = geojson.features.find(function (element) {
-    return element.properties.name === name;
-  });
-
-  // collapse array of polygons in country to an array of points
-  var allPoints = countryFeature.geometry.coordinates.reduce(function (acc, x) {
-    return acc.concat(x[0]);
-  }, []);
-
-  // find most extreme points of country to be able to fit the whole country on
-  // screen
-  var startingAccumulator = {
-    northernmost: -Infinity,
-    southernmost: Infinity,
-    easternmost: -Infinity,
-    westernmost: Infinity
-  };
-
-  var extremes = allPoints.reduce(function (acc, point) {
-    var lat = point[0];
-    var long = point[1];
-
-    acc.northernmost = Math.max(lat, acc.northernmost);
-    acc.southernmost = Math.min(lat, acc.southernmost);
-    acc.easternmost = Math.max(long, acc.easternmost);
-    acc.westernmost = Math.min(long, acc.westernmost);
-
-    return acc;
-  }, startingAccumulator);
-
-  console.log(extremes);
-
-  map.fitBounds([[extremes.southernmost, extremes.westernmost], [extremes.northernmost, extremes.easternmost]]);
-};
-
-exports.renderMap = function (parentElement, viewCountry) {
-  var map = makeMap(parentElement);
-
-  // no country specified to zoom in on, so show whole world
-  if (viewCountry === null) {
-    map.setView([25, 0], 1.5);
-  } else {
-    map.setView([25, 0], 1.5);
-    //zoomToCountry(viewCountry, map);
-  }
-
-  return map;
-};
+exports.default = MapPage;
 
 /***/ }),
-/* 30 */
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _suggestiondropdown = __webpack_require__(37);
+
+var _suggestiondropdown2 = _interopRequireDefault(_suggestiondropdown);
+
+__webpack_require__(5);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var CountrySearchBar = function (_React$Component) {
+  _inherits(CountrySearchBar, _React$Component);
+
+  function CountrySearchBar(props) {
+    _classCallCheck(this, CountrySearchBar);
+
+    var _this = _possibleConstructorReturn(this, (CountrySearchBar.__proto__ || Object.getPrototypeOf(CountrySearchBar)).call(this, props));
+
+    _this.state = { value: "" };
+
+    _this.handleChange = _this.handleChange.bind(_this);
+    _this.goToCountryPage = _this.goToCountryPage.bind(_this);
+    return _this;
+  }
+
+  _createClass(CountrySearchBar, [{
+    key: "handleChange",
+    value: function handleChange(e) {
+      this.setState({ value: e.target.value });
+    }
+  }, {
+    key: "goToCountryPage",
+    value: function goToCountryPage(e) {
+      e.preventDefault();
+
+      document.dispatchEvent(new CustomEvent("countryClicked", {
+        detail: { name: this.state.value }
+      }));
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        "div",
+        null,
+        _react2.default.createElement(
+          "form",
+          { onSubmit: this.goToCountryPage },
+          _react2.default.createElement("input", {
+            type: "search",
+            id: "country-search-bar",
+            className: "input is-rounded",
+            value: this.state.value,
+            onChange: this.handleChange,
+            placeholder: "Search for a country...",
+            autoComplete: "off"
+          }),
+          _react2.default.createElement(
+            "span",
+            { className: "container", style: { marginLeft: "1vw" } },
+            _react2.default.createElement(
+              "span",
+              { onClick: this.goToCountryPage, className: "icon is-medium" },
+              _react2.default.createElement("i", { className: "fas fa-search" })
+            )
+          )
+        ),
+        _react2.default.createElement(_suggestiondropdown2.default, { searchbarValue: this.state.value })
+      );
+    }
+  }]);
+
+  return CountrySearchBar;
+}(_react2.default.Component);
+
+exports.default = CountrySearchBar;
+
+/***/ }),
+/* 32 */,
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* @preserve
@@ -32407,7 +32547,7 @@ exports.map = createMap;
 
 
 /***/ }),
-/* 31 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32421,15 +32561,15 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _brief = __webpack_require__(32);
+var _brief = __webpack_require__(35);
 
 var _brief2 = _interopRequireDefault(_brief);
 
-var _mapComponent = __webpack_require__(15);
+var _mapComponent = __webpack_require__(16);
 
 var _mapComponent2 = _interopRequireDefault(_mapComponent);
 
-__webpack_require__(7);
+__webpack_require__(5);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32448,6 +32588,7 @@ var CountryPage = function CountryPage(props) {
           { className: "title" },
           props.countryInfo.name
         ),
+        _react2.default.createElement("hr", null),
         _react2.default.createElement(
           "h2",
           null,
@@ -32463,7 +32604,7 @@ var CountryPage = function CountryPage(props) {
         { className: "column is-one-quarter" },
         _react2.default.createElement(
           "p",
-          null,
+          { className: "content" },
           props.countryInfo.background,
           _react2.default.createElement(
             "a",
@@ -32479,7 +32620,7 @@ var CountryPage = function CountryPage(props) {
 exports.default = CountryPage;
 
 /***/ }),
-/* 32 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32529,6 +32670,105 @@ var Brief = function Brief(props) {
 };
 
 exports.default = Brief;
+
+/***/ }),
+/* 36 */,
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _map = __webpack_require__(15);
+
+__webpack_require__(5);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var getMatchingNames = function getMatchingNames(inputName, data) {
+  var matching = [];
+
+  if (data) {
+    var allMatching = data.filter(function (country) {
+      return country.toLowerCase().includes(inputName.toLowerCase());
+    });
+
+    // set 5 as the max number of suggestions for autocompleting country names
+    for (var i = 0; i < allMatching.length && i < 5; i++) {
+      matching.push(allMatching[i]);
+    }
+  }
+
+  return matching;
+};
+
+var SuggestionDropdown = function (_React$Component) {
+  _inherits(SuggestionDropdown, _React$Component);
+
+  function SuggestionDropdown(props) {
+    _classCallCheck(this, SuggestionDropdown);
+
+    var _this = _possibleConstructorReturn(this, (SuggestionDropdown.__proto__ || Object.getPrototypeOf(SuggestionDropdown)).call(this, props));
+
+    _this.matchingNames = [];
+
+    _map.getGeojson.then(function (data) {
+      _this.countries = data.features.map(function (feature) {
+        return feature.properties.name;
+      });
+    });
+    return _this;
+  }
+
+  _createClass(SuggestionDropdown, [{
+    key: "render",
+    value: function render() {
+      var matchingNames = getMatchingNames(this.props.searchbarValue, this.countries);
+
+      var display = "block";
+
+      if (matchingNames.length === 0) {
+        display = "none";
+      }
+
+      return _react2.default.createElement(
+        "div",
+        { id: "suggestion-dropdown", style: { display: display } },
+        _react2.default.createElement(
+          "div",
+          { className: "dropdown-content" },
+          matchingNames.map(function (name, index) {
+            return _react2.default.createElement(
+              "div",
+              { key: index, className: "dropdown-item" },
+              name
+            );
+          })
+        )
+      );
+    }
+  }]);
+
+  return SuggestionDropdown;
+}(_react2.default.Component);
+
+exports.default = SuggestionDropdown;
 
 /***/ })
 /******/ ]);

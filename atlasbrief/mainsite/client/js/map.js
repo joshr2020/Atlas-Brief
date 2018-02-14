@@ -4,6 +4,22 @@ import "../scss/main.scss";
 
 let geojson;
 
+const getGeojson = new Promise((resolve, reject) => {
+  if (geojson === undefined) {
+    const request = new XMLHttpRequest();
+    request.open(`GET`, `static/mainsite/world.geo.json`);
+    request.responseType = `json`;
+    request.send();
+    request.onload = () => {
+      geojson = request.response;
+      resolve(geojson);
+    };
+  } else {
+    resolve(geojson);
+  }
+});
+exports.getGeojson = getGeojson;
+
 const hoverFeature = (e, feature) => {
   // on mouseover, darken feature and show name (not done yet)
   const layer = e.target;
@@ -46,19 +62,7 @@ const makeMap = parentElement => {
     //    maxBounds: [[-90, -180], [90, 180]]
   });
 
-  // get geojson the first time map is rendered
-  if (geojson === undefined) {
-    const request = new XMLHttpRequest();
-    request.open(`GET`, `static/mainsite/world.geo.json`);
-    request.responseType = `json`;
-    request.send();
-    request.onload = () => {
-      geojson = request.response;
-      makeGeoLayer(geojson).addTo(map);
-    };
-  } else {
-    makeGeoLayer(geojson).addTo(map);
-  }
+  getGeojson.then(data => makeGeoLayer(data).addTo(map));
 
   // set up label layer
   map.createPane(`labels`);
@@ -98,7 +102,6 @@ const zoomToCountry = (name, map) => {
   const extremes = allPoints.reduce((acc, point) => {
     const lat = point[0];
     const long = point[1];
-
     acc.northernmost = Math.max(lat, acc.northernmost);
     acc.southernmost = Math.min(lat, acc.southernmost);
     acc.easternmost = Math.max(long, acc.easternmost);

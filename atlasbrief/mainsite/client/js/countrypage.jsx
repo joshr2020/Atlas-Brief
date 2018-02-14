@@ -10,6 +10,7 @@ const CountryPage = props => (
     <div className="container columns">
       <div className="column is-three-quarters">
         <h1 className="title">{props.countryInfo.name}</h1>
+        <hr />
 
         <h2>Briefs</h2>
         {JSON.parse(props.countryInfo.briefs).map((brief, index) => (
@@ -20,7 +21,7 @@ const CountryPage = props => (
       </div>
 
       <div className="column is-one-quarter">
-        <p>
+        <p className="content">
           {props.countryInfo.background}
           <a href="#">Read more</a>
         </p>
