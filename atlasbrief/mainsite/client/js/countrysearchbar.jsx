@@ -42,7 +42,7 @@ class CountrySearchBar extends React.Component {
           />
           <span className="container" style={{ marginLeft: "1vw" }}>
             <span onClick={this.goToCountryPage} className="icon is-medium">
-              <i className="fas fa-search" />
+              <i className="fas fa-search" />{" "}
             </span>
           </span>
         </form>

@@ -10,7 +10,9 @@ $navbar-height: 10vh;
 
 #suggestion-dropdown {
     position: fixed;
-    z-index: 2;
+    z-index: 700;
+    width: 45vw;
+    margin-left: 10vw;
 }
 
 #map {

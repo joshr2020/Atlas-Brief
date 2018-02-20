@@ -45,7 +45,7 @@ class SuggestionDropdown extends React.Component {
     }
 
     return (
-      <div id="suggestion-dropdown" style={{ display }}>
+      <div id="suggestion-dropdown" className="container" style={{ display }}>
         <div className="dropdown-content">
           {matchingNames.map((name, index) => (
             <div key={index} className="dropdown-item">
