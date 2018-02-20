@@ -1,4 +1,5 @@
 import React from "react";
+import "../scss/main.scss";
 
 const timeStampToReadable = timestamp => {
   const d = new Date(timestamp);
@@ -6,12 +7,21 @@ const timeStampToReadable = timestamp => {
 };
 
 const Brief = props => (
-  <article>
-    <h3>{props.content.title}</h3>
-    <p>{props.content.author}</p>
-    <p>Updated {timeStampToReadable(props.content.timestamp)}</p>
-    <p>{props.content.content}</p>
-  </article>
+  <div class="box">
+    <article class="media">
+      <div>
+        <h3>
+          <strong>{props.content.title}</strong>
+        </h3>
+        <p>
+          By {props.content.author} updated at  {timeStampToReadable(props.content.timestamp)}
+        </p>
+        <p>
+          {props.content.content}
+        </p>
+      </div>
+    </article>
+  </div>
 );
 
 export default Brief;
