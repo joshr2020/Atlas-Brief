@@ -20,10 +20,10 @@ const CountryPage = props => (
         <Map viewCountry={props.countryInfo.name} />
       </div>
 
-      <div className="column">
-        <div class="buttons has-addons is-centered">
-          <span class="button">Background</span>
-          <span class="button">Stats</span>
+      <div className="column is-two-fifths">
+        <div className="buttons has-addons is-centered">
+          <span className="button">Background</span>
+          <span className="button">Stats</span>
         </div>
 
         <p className="content">

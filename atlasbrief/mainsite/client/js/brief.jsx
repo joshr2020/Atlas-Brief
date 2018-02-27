@@ -6,27 +6,24 @@ const timeStampToReadable = timestamp => {
   return `${d.toLocaleString()}`;
 };
 
-const Brief = props => {
-  console.log(props);
-  return(
-  <div class="box">
-    <article class="media">
+const Brief = props => (
+  <div className="box">
+    <article className="media">
       <div>
         <h3>
           <strong>{props.content.title}</strong>
         </h3>
         <p>
-          By {props.content.author} updated at  {timeStampToReadable(props.content.timestamp)}
+          By {props.content.author} updated at
+          {timeStampToReadable(props.content.timestamp)}
         </p>
-        <p>
-          {props.content.content}
-        </p>
-        <div class="tags">
-          <span class="tag">{toString(props.content.tags)}</span>
+        <p>{props.content.content}</p>
+        <div className="tags">
+          <span className="tag">{toString(props.content.tags)}</span>
         </div>
       </div>
     </article>
   </div>
-);};
+);
 
 export default Brief;

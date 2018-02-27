@@ -32699,18 +32699,18 @@ var CountryPage = function CountryPage(props) {
       ),
       _react2.default.createElement(
         "div",
-        { className: "column" },
+        { className: "column is-two-fifths" },
         _react2.default.createElement(
           "div",
-          { "class": "buttons has-addons is-centered" },
+          { className: "buttons has-addons is-centered" },
           _react2.default.createElement(
             "span",
-            { "class": "button" },
+            { className: "button" },
             "Background"
           ),
           _react2.default.createElement(
             "span",
-            { "class": "button" },
+            { className: "button" },
             "Stats"
           )
         ),
@@ -32756,13 +32756,12 @@ var timeStampToReadable = function timeStampToReadable(timestamp) {
 };
 
 var Brief = function Brief(props) {
-  console.log(props);
   return _react2.default.createElement(
     "div",
-    { "class": "box" },
+    { className: "box" },
     _react2.default.createElement(
       "article",
-      { "class": "media" },
+      { className: "media" },
       _react2.default.createElement(
         "div",
         null,
@@ -32780,7 +32779,7 @@ var Brief = function Brief(props) {
           null,
           "By ",
           props.content.author,
-          " updated at  ",
+          " updated at",
           timeStampToReadable(props.content.timestamp)
         ),
         _react2.default.createElement(
@@ -32790,10 +32789,10 @@ var Brief = function Brief(props) {
         ),
         _react2.default.createElement(
           "div",
-          { "class": "tags" },
+          { className: "tags" },
           _react2.default.createElement(
             "span",
-            { "class": "tag" },
+            { className: "tag" },
             toString(props.content.tags)
           )
         )
