@@ -8,8 +8,12 @@ import "../scss/main.scss";
 const NavBar = () => (
   <nav className="navbar">
     <div className="container">
-      <div className="navbar-brand">
-        <h1>Atlas Brief</h1>
+      <div className="navbar-brand-custom">
+        <img
+          style={{ maxWidth: "10vw" }}
+          src="static/mainsite/potential-logo1.png"
+          alt="Atlas Brief Logo"
+        />
       </div>
 
       <div className="navbar-menu">

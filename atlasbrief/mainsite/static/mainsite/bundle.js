@@ -18590,12 +18590,12 @@ var NavBar = function NavBar() {
       { className: "container" },
       _react2.default.createElement(
         "div",
-        { className: "navbar-brand" },
-        _react2.default.createElement(
-          "h1",
-          null,
-          "Atlas Brief"
-        )
+        { className: "navbar-brand-custom" },
+        _react2.default.createElement("img", {
+          style: { maxWidth: "10vw" },
+          src: "static/mainsite/potential-logo1.png",
+          alt: "Atlas Brief Logo"
+        })
       ),
       _react2.default.createElement(
         "div",
