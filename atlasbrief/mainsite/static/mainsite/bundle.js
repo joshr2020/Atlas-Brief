@@ -18815,7 +18815,11 @@ var SuggestionDropdown = function (_React$Component) {
 
       return _react2.default.createElement(
         "div",
+<<<<<<< HEAD
         { id: "suggestion-dropdown", className: "container", style: { display: display } },
+=======
+        { id: "suggestion-dropdown", style: { display: display } },
+>>>>>>> countrypage
         _react2.default.createElement(
           "div",
           { className: "dropdown-content" },
@@ -32680,7 +32684,7 @@ var CountryPage = function CountryPage(props) {
       { className: "container columns" },
       _react2.default.createElement(
         "div",
-        { className: "column is-three-quarters" },
+        { className: "column is-three-fifths" },
         _react2.default.createElement(
           "h1",
           { className: "title" },
@@ -32699,7 +32703,21 @@ var CountryPage = function CountryPage(props) {
       ),
       _react2.default.createElement(
         "div",
-        { className: "column is-one-quarter" },
+        { className: "column" },
+        _react2.default.createElement(
+          "div",
+          { "class": "buttons has-addons is-centered" },
+          _react2.default.createElement(
+            "span",
+            { "class": "button" },
+            "Background"
+          ),
+          _react2.default.createElement(
+            "span",
+            { "class": "button" },
+            "Stats"
+          )
+        ),
         _react2.default.createElement(
           "p",
           { className: "content" },
@@ -32732,6 +32750,8 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+__webpack_require__(3);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var timeStampToReadable = function timeStampToReadable(timestamp) {
@@ -32740,29 +32760,54 @@ var timeStampToReadable = function timeStampToReadable(timestamp) {
 };
 
 var Brief = function Brief(props) {
+  console.log(props);
   return _react2.default.createElement(
-    "article",
-    null,
+    "div",
+    { "class": "box" },
     _react2.default.createElement(
-      "h3",
-      null,
-      props.content.title
-    ),
-    _react2.default.createElement(
-      "p",
-      null,
-      props.content.author
-    ),
-    _react2.default.createElement(
-      "p",
-      null,
-      "Updated ",
-      timeStampToReadable(props.content.timestamp)
-    ),
-    _react2.default.createElement(
+<<<<<<< HEAD
       "p",
       null,
       props.content.content
+=======
+      "article",
+      { "class": "media" },
+      _react2.default.createElement(
+        "div",
+        null,
+        _react2.default.createElement(
+          "h3",
+          null,
+          _react2.default.createElement(
+            "strong",
+            null,
+            props.content.title
+          )
+        ),
+        _react2.default.createElement(
+          "p",
+          null,
+          "By ",
+          props.content.author,
+          " updated at  ",
+          timeStampToReadable(props.content.timestamp)
+        ),
+        _react2.default.createElement(
+          "p",
+          null,
+          props.content.content
+        ),
+        _react2.default.createElement(
+          "div",
+          { "class": "tags" },
+          _react2.default.createElement(
+            "span",
+            { "class": "tag" },
+            toString(props.content.tags)
+          )
+        )
+      )
+>>>>>>> countrypage
     )
   );
 };

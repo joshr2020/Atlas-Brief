@@ -8,7 +8,7 @@ import "../scss/main.scss";
 const CountryPage = props => (
   <section className="section">
     <div className="container columns">
-      <div className="column is-three-quarters">
+      <div className="column is-three-fifths">
         <h1 className="title">{props.countryInfo.name}</h1>
         <hr />
 
@@ -20,7 +20,12 @@ const CountryPage = props => (
         <Map viewCountry={props.countryInfo.name} />
       </div>
 
-      <div className="column is-one-quarter">
+      <div className="column">
+        <div class="buttons has-addons is-centered">
+          <span class="button">Background</span>
+          <span class="button">Stats</span>
+        </div>
+
         <p className="content">
           {props.countryInfo.background}
           <a href="#">Read more</a>
