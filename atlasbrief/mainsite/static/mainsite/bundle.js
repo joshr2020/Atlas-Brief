@@ -18815,11 +18815,7 @@ var SuggestionDropdown = function (_React$Component) {
 
       return _react2.default.createElement(
         "div",
-<<<<<<< HEAD
         { id: "suggestion-dropdown", className: "container", style: { display: display } },
-=======
-        { id: "suggestion-dropdown", style: { display: display } },
->>>>>>> countrypage
         _react2.default.createElement(
           "div",
           { className: "dropdown-content" },
@@ -32765,11 +32761,6 @@ var Brief = function Brief(props) {
     "div",
     { "class": "box" },
     _react2.default.createElement(
-<<<<<<< HEAD
-      "p",
-      null,
-      props.content.content
-=======
       "article",
       { "class": "media" },
       _react2.default.createElement(
@@ -32807,7 +32798,6 @@ var Brief = function Brief(props) {
           )
         )
       )
->>>>>>> countrypage
     )
   );
 };
