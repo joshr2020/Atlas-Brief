@@ -32679,7 +32679,7 @@ var CountryPage = function CountryPage(props) {
       { className: "container columns" },
       _react2.default.createElement(
         "div",
-        { className: "column is-three-quarters" },
+        { className: "column is-three-fifths" },
         _react2.default.createElement(
           "h1",
           { className: "title" },
@@ -32698,7 +32698,21 @@ var CountryPage = function CountryPage(props) {
       ),
       _react2.default.createElement(
         "div",
-        { className: "column is-one-quarter" },
+        { className: "column" },
+        _react2.default.createElement(
+          "div",
+          { "class": "buttons has-addons is-centered" },
+          _react2.default.createElement(
+            "span",
+            { "class": "button" },
+            "Background"
+          ),
+          _react2.default.createElement(
+            "span",
+            { "class": "button" },
+            "Stats"
+          )
+        ),
         _react2.default.createElement(
           "p",
           { className: "content" },
@@ -32741,6 +32755,7 @@ var timeStampToReadable = function timeStampToReadable(timestamp) {
 };
 
 var Brief = function Brief(props) {
+  console.log(props);
   return _react2.default.createElement(
     "div",
     { "class": "box" },
@@ -32771,6 +32786,15 @@ var Brief = function Brief(props) {
           "p",
           null,
           props.content.content
+        ),
+        _react2.default.createElement(
+          "div",
+          { "class": "tags" },
+          _react2.default.createElement(
+            "span",
+            { "class": "tag" },
+            toString(props.content.tags)
+          )
         )
       )
     )

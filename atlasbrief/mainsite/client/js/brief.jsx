@@ -6,7 +6,9 @@ const timeStampToReadable = timestamp => {
   return `${d.toLocaleString()}`;
 };
 
-const Brief = props => (
+const Brief = props => {
+  console.log(props);
+  return(
   <div class="box">
     <article class="media">
       <div>
@@ -19,9 +21,12 @@ const Brief = props => (
         <p>
           {props.content.content}
         </p>
+        <div class="tags">
+          <span class="tag">{toString(props.content.tags)}</span>
+        </div>
       </div>
     </article>
   </div>
-);
+);};
 
 export default Brief;
