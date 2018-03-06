@@ -32655,6 +32655,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
@@ -32670,6 +32672,88 @@ var _mapComponent2 = _interopRequireDefault(_mapComponent);
 __webpack_require__(3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var InfoColumn = function (_React$Component) {
+  _inherits(InfoColumn, _React$Component);
+
+  function InfoColumn(props) {
+    _classCallCheck(this, InfoColumn);
+
+    var _this = _possibleConstructorReturn(this, (InfoColumn.__proto__ || Object.getPrototypeOf(InfoColumn)).call(this, props));
+
+    _this.state = { visibleInfoType: "background" };
+    return _this;
+  }
+
+  _createClass(InfoColumn, [{
+    key: "changeVisibleInfo",
+    value: function changeVisibleInfo(visibleInfoType) {
+      this.setState({ visibleInfoType: visibleInfoType });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var visibleInfo = void 0;
+      switch (this.state.visibleInfoType) {
+        case "background":
+          visibleInfo = this.props.background;
+          break;
+
+        case "stats":
+          visibleInfo = this.props.stats;
+          break;
+
+        default:
+          visibleInfo = "ERROR!";
+          break;
+      }
+
+      return _react2.default.createElement(
+        "div",
+        { className: "column is-two-fifths" },
+        _react2.default.createElement(
+          "div",
+          { className: "buttons has-addons is-centered" },
+          _react2.default.createElement(
+            "span",
+            {
+              className: "button",
+              onClick: function onClick() {
+                return _this2.changeVisibleInfo("background");
+              }
+            },
+            "Background"
+          ),
+          _react2.default.createElement(
+            "span",
+            {
+              className: "button",
+              onClick: function onClick() {
+                return _this2.changeVisibleInfo("stats");
+              }
+            },
+            "Stats"
+          )
+        ),
+        _react2.default.createElement(
+          "section",
+          { className: "section" },
+          visibleInfo
+        )
+      );
+    }
+  }]);
+
+  return InfoColumn;
+}(_react2.default.Component);
 
 var CountryPage = function CountryPage(props) {
   return _react2.default.createElement(
@@ -32687,44 +32771,15 @@ var CountryPage = function CountryPage(props) {
           props.countryInfo.name
         ),
         _react2.default.createElement("hr", null),
-        _react2.default.createElement(
-          "h2",
-          null,
-          "Briefs"
-        ),
         JSON.parse(props.countryInfo.briefs).map(function (brief, index) {
           return _react2.default.createElement(_brief2.default, { key: index, content: brief.fields });
         }),
         _react2.default.createElement(_mapComponent2.default, { viewCountry: props.countryInfo.name })
       ),
-      _react2.default.createElement(
-        "div",
-        { className: "column is-two-fifths" },
-        _react2.default.createElement(
-          "div",
-          { className: "buttons has-addons is-centered" },
-          _react2.default.createElement(
-            "span",
-            { className: "button" },
-            "Background"
-          ),
-          _react2.default.createElement(
-            "span",
-            { className: "button" },
-            "Stats"
-          )
-        ),
-        _react2.default.createElement(
-          "p",
-          { className: "content" },
-          props.countryInfo.background,
-          _react2.default.createElement(
-            "a",
-            { href: "#" },
-            "Read more"
-          )
-        )
-      )
+      _react2.default.createElement(InfoColumn, {
+        background: props.countryInfo.background,
+        stats: props.countryInfo.stats
+      })
     )
   );
 };
@@ -32742,6 +32797,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
@@ -32750,12 +32807,18 @@ __webpack_require__(3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 var timeStampToReadable = function timeStampToReadable(timestamp) {
   var d = new Date(timestamp);
   return "" + d.toLocaleString();
 };
 
-var Brief = function Brief(props) {
+var BriefBox = function BriefBox(props) {
   return _react2.default.createElement(
     "div",
     { className: "box" },
@@ -32780,6 +32843,7 @@ var Brief = function Brief(props) {
           "By ",
           props.content.author,
           " updated at",
+          " ",
           timeStampToReadable(props.content.timestamp)
         ),
         _react2.default.createElement(
@@ -32787,6 +32851,12 @@ var Brief = function Brief(props) {
           null,
           props.content.content
         ),
+        _react2.default.createElement(
+          "a",
+          { onClick: props.onReadMore },
+          "Read More..."
+        ),
+        _react2.default.createElement("br", null),
         _react2.default.createElement(
           "div",
           { className: "tags" },
@@ -32800,6 +32870,90 @@ var Brief = function Brief(props) {
     )
   );
 };
+
+var BriefModal = function BriefModal(props) {
+  return _react2.default.createElement(
+    "div",
+    { className: "modal is-active", style: { zIndex: 2000 } },
+    _react2.default.createElement("div", { className: "modal-background", onClick: props.onClose }),
+    _react2.default.createElement(
+      "div",
+      { className: "modal-card" },
+      _react2.default.createElement(
+        "header",
+        { className: "modal-card-head" },
+        _react2.default.createElement(
+          "p",
+          { className: "modal-card-title" },
+          props.content.title
+        ),
+        _react2.default.createElement("button", { className: "delete", onClick: props.onClose })
+      ),
+      _react2.default.createElement(
+        "section",
+        { className: "modal-card-body" },
+        _react2.default.createElement(
+          "p",
+          null,
+          "By ",
+          props.content.author,
+          " updated at",
+          " ",
+          timeStampToReadable(props.content.timestamp)
+        ),
+        _react2.default.createElement(
+          "p",
+          null,
+          props.content.content
+        ),
+        _react2.default.createElement("br", null),
+        _react2.default.createElement(
+          "div",
+          { className: "tags" },
+          _react2.default.createElement(
+            "span",
+            { className: "tag" },
+            toString(props.content.tags)
+          )
+        )
+      )
+    )
+  );
+};
+
+var Brief = function (_React$Component) {
+  _inherits(Brief, _React$Component);
+
+  function Brief(props) {
+    _classCallCheck(this, Brief);
+
+    var _this = _possibleConstructorReturn(this, (Brief.__proto__ || Object.getPrototypeOf(Brief)).call(this, props));
+
+    _this.state = { showModal: false };
+
+    _this.toggleModal = _this.toggleModal.bind(_this);
+    _this.setState = _this.setState.bind(_this);
+    return _this;
+  }
+
+  _createClass(Brief, [{
+    key: "toggleModal",
+    value: function toggleModal() {
+      var a = !this.state.showModal;
+      this.setState({ showModal: a });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      if (this.state.showModal) {
+        return _react2.default.createElement(BriefModal, { content: this.props.content, onClose: this.toggleModal });
+      }
+      return _react2.default.createElement(BriefBox, { content: this.props.content, onReadMore: this.toggleModal });
+    }
+  }]);
+
+  return Brief;
+}(_react2.default.Component);
 
 exports.default = Brief;
 

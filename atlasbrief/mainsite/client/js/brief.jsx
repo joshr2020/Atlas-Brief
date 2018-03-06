@@ -6,7 +6,7 @@ const timeStampToReadable = timestamp => {
   return `${d.toLocaleString()}`;
 };
 
-const Brief = props => (
+const BriefBox = props => (
   <div className="box">
     <article className="media">
       <div>
@@ -14,10 +14,12 @@ const Brief = props => (
           <strong>{props.content.title}</strong>
         </h3>
         <p>
-          By {props.content.author} updated at
+          By {props.content.author} updated at{" "}
           {timeStampToReadable(props.content.timestamp)}
         </p>
         <p>{props.content.content}</p>
+        <a onClick={props.onReadMore}>Read More...</a>
+        <br />
         <div className="tags">
           <span className="tag">{toString(props.content.tags)}</span>
         </div>
@@ -25,5 +27,54 @@ const Brief = props => (
     </article>
   </div>
 );
+
+const BriefModal = props => (
+  <div className="modal is-active" style={{ zIndex: 2000 }}>
+    <div className="modal-background" onClick={props.onClose} />
+    <div className="modal-card">
+      <header className="modal-card-head">
+        <p className="modal-card-title">{props.content.title}</p>
+        <button className="delete" onClick={props.onClose} />
+      </header>
+      <section className="modal-card-body">
+        <p>
+          By {props.content.author} updated at{" "}
+          {timeStampToReadable(props.content.timestamp)}
+        </p>
+        <p>{props.content.content}</p>
+        <br />
+        <div className="tags">
+          <span className="tag">{toString(props.content.tags)}</span>
+        </div>
+      </section>
+    </div>
+  </div>
+);
+
+class Brief extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { showModal: false };
+
+    this.toggleModal = this.toggleModal.bind(this);
+    this.setState = this.setState.bind(this);
+  }
+
+  toggleModal() {
+    const a = !this.state.showModal;
+    this.setState({ showModal: a });
+  }
+
+  render() {
+    if (this.state.showModal) {
+      return (
+        <BriefModal content={this.props.content} onClose={this.toggleModal} />
+      );
+    }
+    return (
+      <BriefBox content={this.props.content} onReadMore={this.toggleModal} />
+    );
+  }
+}
 
 export default Brief;

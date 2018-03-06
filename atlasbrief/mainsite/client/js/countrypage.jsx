@@ -5,6 +5,54 @@ import Map from "./map-component.jsx";
 
 import "../scss/main.scss";
 
+class InfoColumn extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { visibleInfoType: "background" };
+  }
+
+  changeVisibleInfo(visibleInfoType) {
+    this.setState({ visibleInfoType });
+  }
+
+  render() {
+    let visibleInfo;
+    switch (this.state.visibleInfoType) {
+      case "background":
+        visibleInfo = this.props.background;
+        break;
+
+      case "stats":
+        visibleInfo = this.props.stats;
+        break;
+
+      default:
+        visibleInfo = "ERROR!";
+        break;
+    }
+
+    return (
+      <div className="column is-two-fifths">
+        <div className="buttons has-addons is-centered">
+          <span
+            className="button"
+            onClick={() => this.changeVisibleInfo("background")}
+          >
+            Background
+          </span>
+          <span
+            className="button"
+            onClick={() => this.changeVisibleInfo("stats")}
+          >
+            Stats
+          </span>
+        </div>
+        <section className="section">{visibleInfo}</section>
+      </div>
+    );
+  }
+}
+
 const CountryPage = props => (
   <section className="section">
     <div className="container columns">
@@ -12,7 +60,6 @@ const CountryPage = props => (
         <h1 className="title">{props.countryInfo.name}</h1>
         <hr />
 
-        <h2>Briefs</h2>
         {JSON.parse(props.countryInfo.briefs).map((brief, index) => (
           <Brief key={index} content={brief.fields} />
         ))}
@@ -20,17 +67,10 @@ const CountryPage = props => (
         <Map viewCountry={props.countryInfo.name} />
       </div>
 
-      <div className="column is-two-fifths">
-        <div className="buttons has-addons is-centered">
-          <span className="button">Background</span>
-          <span className="button">Stats</span>
-        </div>
-
-        <p className="content">
-          {props.countryInfo.background}
-          <a href="#">Read more</a>
-        </p>
-      </div>
+      <InfoColumn
+        background={props.countryInfo.background}
+        stats={props.countryInfo.stats}
+      />
     </div>
   </section>
 );
