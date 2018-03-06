@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 from .models import Country, Tag
 
+
 def add_country(filename):
 
     with open(filename, 'r') as f:
@@ -26,9 +27,11 @@ def add_country(filename):
         return
     newtag = Tag(name=short_name)
     newtag.save()
-    Country(name=short_name, background=bg, stats=json.dumps(data), tag=newtag).save()
+    Country(name=short_name, background=bg,
+            stats=json.dumps(data), tag=newtag).save()
+
 
 def add_to_database():
-    p = Path('/Users/joshuarusso/Documents/AB/factbook.json')
+    p = Path('../../factbook')
     for child in p.rglob('[a-z][a-z].json'):
         add_country(child)
