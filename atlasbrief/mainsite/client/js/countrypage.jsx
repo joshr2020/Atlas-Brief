@@ -61,7 +61,7 @@ const CountryPage = props => (
         <hr />
 
         {JSON.parse(props.countryInfo.briefs).map((brief, index) => (
-          <Brief key={index} content={brief.fields} />
+          <Brief key={index} content={brief} />
         ))}
 
         <Map viewCountry={props.countryInfo.name} />

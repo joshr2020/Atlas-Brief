@@ -21,7 +21,9 @@ const BriefBox = props => (
         <a onClick={props.onReadMore}>Read More...</a>
         <br />
         <div className="tags">
-          <span className="tag">{toString(props.content.tags)}</span>
+          {props.content.tags.map((tag, i) =>
+            <span key={i} className="tag">{tag.name}</span>
+          )}
         </div>
       </div>
     </article>
@@ -44,7 +46,7 @@ const BriefModal = props => (
         <p>{props.content.content}</p>
         <br />
         <div className="tags">
-          <span className="tag">{toString(props.content.tags)}</span>
+          <span className="tag">{props.content.tags.map(tag => tag.name)}</span>
         </div>
       </section>
     </div>

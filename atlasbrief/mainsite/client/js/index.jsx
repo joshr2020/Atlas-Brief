@@ -29,7 +29,6 @@ class App extends React.Component {
     request.onload = () => {
       if (request.response !== null) {
         const newState = { countryInfo: request.response };
-        newState.countryInfo.name = e.detail.name;
         this.setState(newState);
       }
     };
