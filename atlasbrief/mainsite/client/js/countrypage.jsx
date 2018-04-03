@@ -2,6 +2,7 @@ import React from "react";
 
 import Brief from "./brief.jsx";
 import Map from "./map-component.jsx";
+import StatsAccordion from "./stats-accordion.jsx";
 
 import "../scss/main.scss";
 
@@ -23,7 +24,7 @@ class InfoColumn extends React.Component {
         break;
 
       case "stats":
-        visibleInfo = this.props.stats;
+        visibleInfo = <StatsAccordion content={this.props.stats} />;
         break;
 
       default:

@@ -48,7 +48,11 @@ class SuggestionDropdown extends React.Component {
       <div id="suggestion-dropdown" className="container" style={{ display }}>
         <div className="dropdown-content">
           {matchingNames.map((name, index) => (
-            <div key={index} className="dropdown-item">
+            <div
+              key={index}
+              className="dropdown-item"
+              onClick={e => this.props.goToCountryPageFunc(e, name)}
+            >
               {name}
             </div>
           ))}

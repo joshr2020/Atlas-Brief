@@ -20,40 +20,47 @@ const getGeojson = new Promise((resolve, reject) => {
 });
 exports.getGeojson = getGeojson;
 
-const hoverFeature = (e, feature) => {
+const hoverFeature = (layer, feature) => {
   // on mouseover, darken feature and show name (not done yet)
-  const layer = e.target;
   layer.setStyle({
-    fillColor: `#5190da`
+    fillOpacity: 1
   });
 };
 
-const makeGeoLayer = data => {
+const makeGeoLayer = (data, viewCountry) => {
   const geoLayer = L.geoJSON(data, {
-    style: feature => ({
-      fillColor: `#5295e4`,
-      weight: 1.25,
-      opacity: 1,
-      color: `white`,
-      dashArray: `3`,
-      fillOpacity: 1
-    }),
-    onEachFeature: (feature, layer) =>
+    style: feature => {
+      let fillColor = `#5190da`;
+      if (feature.properties.name === viewCountry) {
+        fillColor = `#FFFFFF`;
+      }
+
+      return {
+        fillColor,
+        weight: 1.25,
+        opacity: 1,
+        color: `white`,
+        dashArray: `3`,
+        fillOpacity: 0.8
+      };
+    },
+    onEachFeature: (feature, layer) => {
       layer.on({
-        mouseover: e => hoverFeature(e, feature),
-        mouseout: e => geoLayer.resetStyle(e.target),
+        mouseover: e => hoverFeature(layer, feature),
+        mouseout: e => geoLayer.resetStyle(layer),
         click: e =>
           document.dispatchEvent(
             new CustomEvent(`countryClicked`, {
               detail: { name: feature.properties.name }
             })
           )
-      })
+      });
+    }
   });
   return geoLayer;
 };
 
-const makeMap = parentElement => {
+const makeMap = (parentElement, viewCountry) => {
   const map = L.map(parentElement, {
     zoomSnap: 0.5,
     maxZoom: 7
@@ -62,7 +69,7 @@ const makeMap = parentElement => {
     //    maxBounds: [[-90, -180], [90, 180]]
   });
 
-  getGeojson.then(data => makeGeoLayer(data).addTo(map));
+  getGeojson.then(data => makeGeoLayer(data, viewCountry).addTo(map));
 
   // set up label layer
   map.createPane(`labels`);
@@ -119,14 +126,15 @@ const zoomToCountry = (name, map) => {
 };
 
 exports.renderMap = (parentElement, viewCountry) => {
-  const map = makeMap(parentElement);
-
+  let map;
   // no country specified to zoom in on, so show whole world
   if (viewCountry === null) {
+    map = makeMap(parentElement, null);
     map.setView([25, 0], 1.5);
   } else {
+    map = makeMap(parentElement, viewCountry);
     map.setView([25, 0], 1.5);
-    //zoomToCountry(viewCountry, map);
+    // zoomToCountry(viewCountry, map);
   }
 
   return map;

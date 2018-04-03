@@ -15,6 +15,18 @@ $navbar-height: 10vh;
     margin-left: 10vw;
 }
 
+.dropdown-item:nth-child(even) {
+    background-color: #eff0f1;
+}
+
+.dropdown-item:hover {
+    background-color: #3af;
+}
+
+.dropdown-item:active {
+    background-color: #07c;
+}
+
 #navbar-brand-custom {
     align-items: stretch;
     min-height: 10vh;
@@ -26,3 +38,5 @@ $navbar-height: 10vh;
 }
 
 @import "~bulma";
+@import
+"../../../../node_modules/bulma-extensions/bulma-accordion/dist/bulma-accordion.sass";

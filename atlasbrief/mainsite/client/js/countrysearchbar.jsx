@@ -4,33 +4,32 @@ import SuggestionDropdown from "./suggestiondropdown.jsx";
 
 import "../scss/main.scss";
 
+const goToCountryPage = (e, name) => {
+  e.preventDefault();
+
+  document.dispatchEvent(
+    new CustomEvent(`countryClicked`, {
+      detail: { name }
+    })
+  );
+};
+
 class CountrySearchBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = { value: "" };
 
     this.handleChange = this.handleChange.bind(this);
-    this.goToCountryPage = this.goToCountryPage.bind(this);
   }
 
   handleChange(e) {
     this.setState({ value: e.target.value });
   }
 
-  goToCountryPage(e) {
-    e.preventDefault();
-
-    document.dispatchEvent(
-      new CustomEvent(`countryClicked`, {
-        detail: { name: this.state.value }
-      })
-    );
-  }
-
   render() {
     return (
       <div>
-        <form onSubmit={this.goToCountryPage}>
+        <form onSubmit={e => goToCountryPage(e, this.state.value)}>
           <input
             type="search"
             id="country-search-bar"
@@ -41,13 +40,19 @@ class CountrySearchBar extends React.Component {
             autoComplete="off"
           />
           <span className="container" style={{ marginLeft: "1vw" }}>
-            <span onClick={this.goToCountryPage} className="icon is-medium">
+            <span
+              onClick={e => goToCountryPage(e, this.state.value)}
+              className="icon is-medium"
+            >
               <i className="fas fa-search" />{" "}
             </span>
           </span>
         </form>
 
-        <SuggestionDropdown searchbarValue={this.state.value} />
+        <SuggestionDropdown
+          searchbarValue={this.state.value}
+          goToCountryPageFunc={goToCountryPage}
+        />
       </div>
     );
   }
