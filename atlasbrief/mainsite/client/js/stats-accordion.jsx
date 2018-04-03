@@ -9,14 +9,22 @@ class StatsAccordion extends React.Component {
       <section className="accordions">
         <article className="accordion is-active">
           <div className="accordion-header toggle">
-            <p>Population</p>
+            <p>Demographics</p>
           </div>
           <div className="accordion-body">
             <div className="accordion-content">
-              <ul>
-                <li>Population: {c["People and Society"].Population.text}</li>
+              <ul className="alternating-colors">
+                <li>
+                  Population: {c["People and Society"].Population.text}
+                </li>
                 <li>
                   Ethnic Groups: {c["People and Society"]["Ethnic groups"].text}
+                </li>
+                <li>
+                  Languages: {c["People and Society"].Languages.text}
+                </li>
+                <li>
+                  Religion: {c["People and Society"].Religions.text}
                 </li>
               </ul>
             </div>
@@ -24,11 +32,17 @@ class StatsAccordion extends React.Component {
         </article>
         <article className="accordion">
           <div className="accordion-header">
-            <p>Hello World</p>
+            <p>Politics</p>
             <button className="toggle" aria-label="toggle" />
           </div>
           <div className="accordion-body">
-            <div className="accordion-content">content</div>
+            <div className="accordion-content">
+              <ul className="alternating-colors">
+                <li>
+                  Form of Government: {c["Government"]["Government type"].text}
+                </li>
+              </ul>
+            </div>
           </div>
         </article>
       </section>

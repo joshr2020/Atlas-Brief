@@ -8,6 +8,9 @@
   width: 45vw;
   margin-left: 10vw; }
 
+.alternating-colors > :nth-child(even) {
+  background-color: white; }
+
 .dropdown-item:nth-child(even) {
   background-color: #eff0f1; }
 
