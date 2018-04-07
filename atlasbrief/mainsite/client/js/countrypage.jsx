@@ -1,79 +1,54 @@
 import React from "react";
 
 import Brief from "./brief.jsx";
-import Map from "./map-component.jsx";
-import StatsAccordion from "./stats-accordion.jsx";
+import InfoColumn from "./infocolumn.jsx";
 
 import "../scss/main.scss";
 
-class InfoColumn extends React.Component {
+class CountryPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { visibleInfoType: "background" };
-  }
+    this.state = { countryInfo: null };
 
-  changeVisibleInfo(visibleInfoType) {
-    this.setState({ visibleInfoType });
+    // get necessary information for country profile
+    const request = new XMLHttpRequest();
+    request.open(`GET`, `api/${props.match.params.name}`);
+    request.responseType = `json`;
+    request.send();
+
+    request.onload = () => {
+      if (request.response !== null) {
+        this.setState({ countryInfo: request.response });
+      }
+    };
   }
 
   render() {
-    let visibleInfo;
-    switch (this.state.visibleInfoType) {
-      case "background":
-        visibleInfo = this.props.background;
-        break;
-
-      case "stats":
-        visibleInfo = <StatsAccordion content={this.props.stats} />;
-        break;
-
-      default:
-        visibleInfo = "ERROR!";
-        break;
+    if (this.state.countryInfo === null) {
+      return <div />;
     }
 
     return (
-      <div className="column is-two-fifths">
-        <div className="buttons has-addons is-centered">
-          <span
-            className="button"
-            onClick={() => this.changeVisibleInfo("background")}
-          >
-            Background
-          </span>
-          <span
-            className="button"
-            onClick={() => this.changeVisibleInfo("stats")}
-          >
-            Stats
-          </span>
+      <section className="section">
+        <div className="container columns">
+          <div className="column is-three-fifths">
+            <h1 className="title">{this.state.countryInfo.name}</h1>
+            <hr />
+
+            {JSON.parse(this.state.countryInfo.briefs).map((brief, index) => (
+              <Brief key={index} content={brief} />
+            ))}
+          </div>
+
+          <InfoColumn
+            countryName={this.state.countryInfo.name}
+            background={this.state.countryInfo.background}
+            stats={this.state.countryInfo.stats}
+          />
         </div>
-        <section className="section">{visibleInfo}</section>
-      </div>
+      </section>
     );
   }
 }
-
-const CountryPage = props => (
-  <section className="section">
-    <div className="container columns">
-      <div className="column is-three-fifths">
-        <h1 className="title">{props.countryInfo.name}</h1>
-        <hr />
-
-        {JSON.parse(props.countryInfo.briefs).map((brief, index) => (
-          <Brief key={index} content={brief} />
-        ))}
-
-        <Map viewCountry={props.countryInfo.name} />
-      </div>
-
-      <InfoColumn
-        background={props.countryInfo.background}
-        stats={props.countryInfo.stats}
-      />
-    </div>
-  </section>
-);
 
 export default CountryPage;

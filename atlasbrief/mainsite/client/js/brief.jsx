@@ -21,9 +21,11 @@ const BriefBox = props => (
         <a onClick={props.onReadMore}>Read More...</a>
         <br />
         <div className="tags">
-          {props.content.tags.map((tag, i) =>
-            <span key={i} className="tag">{tag.name}</span>
-          )}
+          {props.content.tags.map((tag, i) => (
+            <span key={i} className="tag">
+              {tag.name}
+            </span>
+          ))}
         </div>
       </div>
     </article>
@@ -59,12 +61,10 @@ class Brief extends React.Component {
     this.state = { showModal: false };
 
     this.toggleModal = this.toggleModal.bind(this);
-    this.setState = this.setState.bind(this);
   }
 
   toggleModal() {
-    const a = !this.state.showModal;
-    this.setState({ showModal: a });
+    this.setState({ showModal: !this.state.showModal });
   }
 
   render() {

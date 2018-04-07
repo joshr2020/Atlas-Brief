@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
 import MapPage from "./mappage.jsx";
 import CountryPage from "./countrypage.jsx";
@@ -7,7 +8,7 @@ import CountryPage from "./countrypage.jsx";
 class App extends React.Component {
   constructor() {
     super();
-    this.state = { countryInfo: null };
+    this.state = { redirectTo: null };
   }
 
   componentDidMount() {
@@ -20,28 +21,27 @@ class App extends React.Component {
   }
 
   countryClicked(e) {
-    // get necessary information for country profile
-    const request = new XMLHttpRequest();
-    request.open(`GET`, `profile/${e.detail.name}`);
-    request.responseType = `json`;
-    request.send();
-
-    request.onload = () => {
-      if (request.response !== null) {
-        const newState = { countryInfo: request.response };
-        this.setState(newState);
-      }
-    };
+    this.setState({ redirectTo: e.detail.name });
   }
 
   render() {
-    if (this.state.countryInfo === null) {
-      return <MapPage />;
+    if (this.state.redirectTo) {
+      this.setState({ redirectTo: null });
+      return <Redirect push to={`/country/${this.state.redirectTo}`} />;
     }
 
-    // otherwise, show CountryPage
-    return <CountryPage countryInfo={this.state.countryInfo} />;
+    return (
+      <Switch>
+        <Route exact path="/" component={MapPage} />
+        <Route path="/country/:name" component={CountryPage} />
+      </Switch>
+    );
   }
 }
 
-ReactDOM.render(<App />, document.getElementById(`root`));
+ReactDOM.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
+  document.getElementById(`root`)
+);

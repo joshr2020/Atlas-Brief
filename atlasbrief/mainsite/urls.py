@@ -4,5 +4,5 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('profile/<str:country_name>', views.profile, name='profile')
+    path('country/api/<str:country_name>', views.api_country, name='api_country')
 ]

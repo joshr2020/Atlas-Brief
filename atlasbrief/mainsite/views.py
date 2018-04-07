@@ -12,7 +12,7 @@ from .serializers import BriefSerializer
 def index(request):
     return render(request, 'mainsite/index.html', {})
 
-def profile(request, country_name):
+def api_country(request, country_name):
     country = get_object_or_404(Country, name__iexact=country_name)
     tag = country.tag
 
