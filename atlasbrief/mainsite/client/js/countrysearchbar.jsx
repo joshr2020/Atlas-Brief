@@ -17,16 +17,35 @@ const goToCountryPage = (e, name) => {
 class CountrySearchBar extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: "" };
+    this.state = { value: "", focused: false };
 
     this.handleChange = this.handleChange.bind(this);
+    this.toggleDropdown = this.toggleDropdown.bind(this);
   }
 
   handleChange(e) {
-    this.setState({ value: e.target.value });
+    const newState = this.state;
+    newState.value = e.target.value;
+    this.setState(newState);
+  }
+
+  toggleDropdown(e) {
+    const newState = this.state;
+    newState.focused = !this.state.focused;
+    this.setState(newState);
   }
 
   render() {
+    let maybeDropdrown = null;
+    if (this.state.focused) {
+      maybeDropdrown = (
+        <SuggestionDropdown
+          searchbarValue={this.state.value}
+          goToCountryPageFunc={goToCountryPage}
+        />
+      );
+    }
+
     return (
       <div>
         <form onSubmit={e => goToCountryPage(e, this.state.value)}>
@@ -38,6 +57,8 @@ class CountrySearchBar extends React.Component {
             onChange={this.handleChange}
             placeholder="Search for a country..."
             autoComplete="off"
+            onFocus={this.toggleDropdown}
+            onBlur={this.toggleDropdown}
           />
           <span className="container" style={{ marginLeft: "1vw" }}>
             <span
@@ -49,10 +70,7 @@ class CountrySearchBar extends React.Component {
           </span>
         </form>
 
-        <SuggestionDropdown
-          searchbarValue={this.state.value}
-          goToCountryPageFunc={goToCountryPage}
-        />
+        {maybeDropdrown}
       </div>
     );
   }

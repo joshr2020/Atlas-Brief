@@ -1,5 +1,6 @@
 import React from "react";
 
+import NavBar from "./navbar.jsx";
 import Brief from "./brief.jsx";
 import InfoColumn from "./infocolumn.jsx";
 
@@ -25,28 +26,31 @@ class CountryPage extends React.Component {
 
   render() {
     if (this.state.countryInfo === null) {
-      return <div />;
+      return null;
     }
 
     return (
-      <section className="section">
-        <div className="container columns">
-          <div className="column is-three-fifths">
-            <h1 className="title">{this.state.countryInfo.name}</h1>
-            <hr />
+      <div>
+        <NavBar />
+        <section className="section">
+          <div className="container columns">
+            <div className="column is-three-fifths">
+              <h1 className="title">{this.state.countryInfo.name}</h1>
+              <hr />
 
-            {JSON.parse(this.state.countryInfo.briefs).map((brief, index) => (
-              <Brief key={index} content={brief} />
-            ))}
+              {JSON.parse(this.state.countryInfo.briefs).map((brief, index) => (
+                <Brief key={index} content={brief} />
+              ))}
+            </div>
+
+            <InfoColumn
+              countryName={this.state.countryInfo.name}
+              background={this.state.countryInfo.background}
+              stats={this.state.countryInfo.stats}
+            />
           </div>
-
-          <InfoColumn
-            countryName={this.state.countryInfo.name}
-            background={this.state.countryInfo.background}
-            stats={this.state.countryInfo.stats}
-          />
-        </div>
-      </section>
+        </section>
+      </div>
     );
   }
 }
