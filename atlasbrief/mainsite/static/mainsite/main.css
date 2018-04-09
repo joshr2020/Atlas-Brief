@@ -8,7 +8,7 @@
   width: 45vw;
   margin-left: 10vw; }
 
-.alternating-colors > :nth-child(even) {
+.alternating-colors > :nth-child(odd) {
   background-color: white; }
 
 .dropdown-item:nth-child(even) {
