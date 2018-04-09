@@ -15,11 +15,11 @@ $navbar-height: 10vh;
     margin-left: 10vw;
 }
 
-.alternating-colors > :nth-child(even) {
+.alternating-colors > :nth-child(odd) {
   background-color: white;
 }
 
-.dropdown-item:nth-child(even) {
+*:nth-child(even) > .dropdown-item {
     background-color: #eff0f1;
 }
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import { getGeojson } from "./map.js";
 
@@ -40,7 +41,7 @@ class SuggestionDropdown extends React.Component {
 
     let display = `block`;
 
-    if (matchingNames.length === 0) {
+    if (!this.props.searchbarValue || matchingNames.length === 0) {
       display = `none`;
     }
 
@@ -48,13 +49,9 @@ class SuggestionDropdown extends React.Component {
       <div id="suggestion-dropdown" className="container" style={{ display }}>
         <div className="dropdown-content">
           {matchingNames.map((name, index) => (
-            <div
-              key={index}
-              className="dropdown-item"
-              onClick={e => this.props.goToCountryPageFunc(e, name)}
-            >
-              {name}
-            </div>
+            <Link to={`/country/${name}`} key={index}>
+              <div className="dropdown-item">{name}</div>
+            </Link>
           ))}
         </div>
       </div>

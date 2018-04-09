@@ -11,7 +11,7 @@
 .alternating-colors > :nth-child(odd) {
   background-color: white; }
 
-.dropdown-item:nth-child(even) {
+*:nth-child(even) > .dropdown-item {
   background-color: #eff0f1; }
 
 .dropdown-item:hover {

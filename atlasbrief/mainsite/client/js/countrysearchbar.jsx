@@ -20,7 +20,18 @@ class CountrySearchBar extends React.Component {
     this.state = { value: "", focused: false };
 
     this.handleChange = this.handleChange.bind(this);
-    this.toggleDropdown = this.toggleDropdown.bind(this);
+    this.showDropdown = this.showDropdown.bind(this);
+    this.hideDropdown = this.hideDropdown.bind(this);
+  }
+
+  // Necessary so that dropdown will toggle when any part of the page is
+  // clicked except CountrySearchBar and its children.
+  componentDidMount() {
+    document.addEventListener(`click`, this.hideDropdown);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener(`click`, this.hideDropdown);
   }
 
   handleChange(e) {
@@ -29,10 +40,20 @@ class CountrySearchBar extends React.Component {
     this.setState(newState);
   }
 
-  toggleDropdown(e) {
+  showDropdown(e) {
     const newState = this.state;
-    newState.focused = !this.state.focused;
+    newState.focused = true;
     this.setState(newState);
+  }
+
+  hideDropdown(e) {
+    /*let clickedOnSelfOrChildren = true;
+
+    if (!clickedOnSelfOrChildren) {
+      const newState = this.state;
+      newState.focused = true;
+      this.setState(newState);
+    }*/
   }
 
   render() {
@@ -40,6 +61,9 @@ class CountrySearchBar extends React.Component {
     if (this.state.focused) {
       maybeDropdrown = (
         <SuggestionDropdown
+          ref={el => {
+            this.dropdown = el;
+          }}
           searchbarValue={this.state.value}
           goToCountryPageFunc={goToCountryPage}
         />
@@ -57,8 +81,7 @@ class CountrySearchBar extends React.Component {
             onChange={this.handleChange}
             placeholder="Search for a country..."
             autoComplete="off"
-            onFocus={this.toggleDropdown}
-            onBlur={this.toggleDropdown}
+            onFocus={this.showDropdown}
           />
           <span className="container" style={{ marginLeft: "1vw" }}>
             <span
