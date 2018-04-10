@@ -5,58 +5,47 @@ import { getGeojson } from "./map.js";
 
 import "../scss/main.scss";
 
-const getMatchingNames = (inputName, data) => {
-  const matching = [];
+const getMatchingNames = inputName =>
+  new Promise((resolve, reject) => {
+    getGeojson.then(d => {
+      if (!d) {
+        reject(new Error(`No data found.`));
+      }
 
-  if (data) {
-    const allMatching = data.filter(country =>
-      country.toLowerCase().includes(inputName.toLowerCase())
-    );
+      const data = d.features.map(feature => feature.properties.name);
 
-    // set 5 as the max number of suggestions for autocompleting country names
-    for (let i = 0; i < allMatching.length && i < 5; i++) {
-      matching.push(allMatching[i]);
-    }
-  }
+      const allMatching = data.filter(country =>
+        country.toLowerCase().includes(inputName.toLowerCase())
+      );
 
-  return matching;
-};
+      // Set 5 as the max number of suggestions for autocompleting country names.
+      const matching = [];
+      for (let i = 0; i < allMatching.length && i < 5; i++) {
+        matching.push(allMatching[i]);
+      }
 
-class SuggestionDropdown extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.matchingNames = [];
-
-    getGeojson.then(data => {
-      this.countries = data.features.map(feature => feature.properties.name);
+      resolve(matching);
     });
+  });
+exports.getMatchingNames = getMatchingNames;
+
+const SuggestionDropdown = props => {
+  let display = `block`;
+
+  if (!props.searchbarValue || props.matchingNames.length === 0) {
+    display = `none`;
   }
 
-  render() {
-    const matchingNames = getMatchingNames(
-      this.props.searchbarValue,
-      this.countries
-    );
-
-    let display = `block`;
-
-    if (!this.props.searchbarValue || matchingNames.length === 0) {
-      display = `none`;
-    }
-
-    return (
-      <div id="suggestion-dropdown" className="container" style={{ display }}>
-        <div className="dropdown-content">
-          {matchingNames.map((name, index) => (
-            <Link to={`/country/${name}`} key={index}>
-              <div className="dropdown-item">{name}</div>
-            </Link>
-          ))}
-        </div>
+  return (
+    <div id="suggestion-dropdown" className="container" style={{ display }}>
+      <div className="dropdown-content">
+        {props.matchingNames.map((name, index) => (
+          <Link to={`/country/${name}`} key={index}>
+            <div className="dropdown-item">{name}</div>
+          </Link>
+        ))}
       </div>
-    );
-  }
-}
-
-export default SuggestionDropdown;
+    </div>
+  );
+};
+exports.SuggestionDropdown = SuggestionDropdown;

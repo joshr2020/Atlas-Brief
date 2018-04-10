@@ -1,78 +1,45 @@
 import React from "react";
 
-import SuggestionDropdown from "./suggestiondropdown.jsx";
+import { SuggestionDropdown, getMatchingNames } from "./suggestiondropdown.jsx";
 
 import "../scss/main.scss";
-
-const goToCountryPage = (e, name) => {
-  e.preventDefault();
-
-  document.dispatchEvent(
-    new CustomEvent(`countryClicked`, {
-      detail: { name }
-    })
-  );
-};
 
 class CountrySearchBar extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: "", focused: false };
-
+    this.state = { value: ``, matching: [] };
     this.handleChange = this.handleChange.bind(this);
-    this.showDropdown = this.showDropdown.bind(this);
-    this.hideDropdown = this.hideDropdown.bind(this);
-  }
-
-  // Necessary so that dropdown will toggle when any part of the page is
-  // clicked except CountrySearchBar and its children.
-  componentDidMount() {
-    document.addEventListener(`click`, this.hideDropdown);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener(`click`, this.hideDropdown);
+    this.goToCountryPage = this.goToCountryPage.bind(this);
   }
 
   handleChange(e) {
-    const newState = this.state;
-    newState.value = e.target.value;
-    this.setState(newState);
+    const { value } = e.target;
+    getMatchingNames(value).then(matching => {
+      this.setState({ value, matching });
+    });
   }
 
-  showDropdown(e) {
-    const newState = this.state;
-    newState.focused = true;
-    this.setState(newState);
-  }
+  goToCountryPage(e) {
+    e.preventDefault();
 
-  hideDropdown(e) {
-    /*let clickedOnSelfOrChildren = true;
+    // If matching names exist, select the first match, otherwise, just go to
+    // the country the user typed in.
+    const name =
+      this.state.matching && this.state.matching[0]
+        ? this.state.matching[0]
+        : this.state.value;
 
-    if (!clickedOnSelfOrChildren) {
-      const newState = this.state;
-      newState.focused = true;
-      this.setState(newState);
-    }*/
+    document.dispatchEvent(
+      new CustomEvent(`countryClicked`, {
+        detail: { name }
+      })
+    );
   }
 
   render() {
-    let maybeDropdrown = null;
-    if (this.state.focused) {
-      maybeDropdrown = (
-        <SuggestionDropdown
-          ref={el => {
-            this.dropdown = el;
-          }}
-          searchbarValue={this.state.value}
-          goToCountryPageFunc={goToCountryPage}
-        />
-      );
-    }
-
     return (
       <div>
-        <form onSubmit={e => goToCountryPage(e, this.state.value)}>
+        <form onSubmit={this.goToCountryPage}>
           <input
             type="search"
             id="country-search-bar"
@@ -84,16 +51,17 @@ class CountrySearchBar extends React.Component {
             onFocus={this.showDropdown}
           />
           <span className="container" style={{ marginLeft: "1vw" }}>
-            <span
-              onClick={e => goToCountryPage(e, this.state.value)}
-              className="icon is-medium"
-            >
+            <span onClick={this.goToCountryPage} className="icon is-medium">
               <i className="fas fa-search" />{" "}
             </span>
           </span>
         </form>
 
-        {maybeDropdrown}
+        <SuggestionDropdown
+          searchbarValue={this.state.value}
+          matchingNames={this.state.matching}
+          goToCountryPageFunc={this.goToCountryPage}
+        />
       </div>
     );
   }
