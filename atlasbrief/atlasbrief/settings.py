@@ -25,7 +25,7 @@ SECRET_KEY = '@p!_ab_9!@c4gd)jz)&%xtwv4e-5(!ar9r-(4$5pt2^7ir$5%m'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['atlasbrief.org', 'www.atlasbrief.org']
 
 
 # Application definition
