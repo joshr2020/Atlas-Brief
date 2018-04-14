@@ -4,9 +4,9 @@
     "description": "Loading...",
     "main": "atlasbrief/mainsite/client/js/index.jsx",
     "scripts": {
-        "build": "webpack --progress",
-        "dev-build": "webpack --progress --devtool source-map",
-        "watch": "webpack --progress --devtool source-map --watch"
+        "build": "npx webpack --progress",
+        "dev-build": "npx webpack --progress --devtool source-map",
+        "watch": "npx webpack --progress --devtool source-map --watch"
     },
     "repository": {
         "type": "git",
