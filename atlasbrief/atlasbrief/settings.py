@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['atlasbrief.org', 'www.atlasbrief.org']
 
+PREPEND_WWW = True
 
 # Application definition
 
