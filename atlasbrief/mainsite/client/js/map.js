@@ -78,7 +78,7 @@ const makeMap = (parentElement, viewCountry) => {
     {
       attribution: `©OpenStreetMap, ©CartoDB`,
       pane: `labels`,
-      zIndex: 650
+      zIndex: 60000
     }
   ).addTo(map);
 
