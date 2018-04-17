@@ -5,13 +5,13 @@ import mapboxgl from "mapbox-gl";
 // import { renderMap } from "./map.js";
 
 mapboxgl.accessToken =
-  "pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA";
+  "pk.eyJ1IjoiYXRsYXNicmllZiIsImEiOiJjamc0NWwxcTM4NzloMzBwb3FtYjN5YzBoIn0.9sx6scC-AwUx_6KG_Jrkow";
 
 class Map extends React.Component {
   componentDidMount() {
     const map = new mapboxgl.Map({
       container: this.mapContainer,
-      style: "mapbox://styles/mapbox/streets-v9",
+      style: "mapbox://styles/atlasbrief/cjg45meqfj3v82sqprw4dhjq2",
       center: [0, 25],
       zoom: 1.25
     });
