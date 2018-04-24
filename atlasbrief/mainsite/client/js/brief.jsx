@@ -7,8 +7,8 @@ const timeStampToReadable = timestamp => {
 };
 
 const BriefBox = props => {
-		//const lastIndex = props.content.content.indexOf(" ", 300);
   const visibleContent = props.content.content.substring(0, 300);
+
   return (
     <div className="box">
       <article className="media">
@@ -20,7 +20,10 @@ const BriefBox = props => {
             By {props.content.author} updated at{" "}
             {timeStampToReadable(props.content.timestamp)}
           </p>
-		  <p>{visibleContent}<a onClick={props.onReadMore}>Read More...</a></p>
+          <p>
+            {visibleContent}
+            <a onClick={props.onReadMore}>Read More...</a>
+          </p>
           <br />
           <div className="tags">
             {props.content.tags.map((tag, i) => (
