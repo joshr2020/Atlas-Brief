@@ -1,9 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { getGeojson } from "./map.js";
-
 import "../scss/main.scss";
+
+let geojson;
+const getGeojson = new Promise((resolve, reject) => {
+  if (geojson === undefined) {
+    const request = new XMLHttpRequest();
+    request.open(`GET`, `static/mainsite/world.geo.json`);
+    request.responseType = `json`;
+    request.send();
+    request.onload = () => {
+      geojson = request.response;
+      resolve(geojson);
+    };
+  } else {
+    resolve(geojson);
+  }
+});
 
 const getMatchingNames = inputName =>
   new Promise((resolve, reject) => {

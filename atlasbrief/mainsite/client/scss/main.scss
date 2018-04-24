@@ -36,9 +36,15 @@ $navbar-height: 10vh;
     min-height: 10vh;
 }
 
-#map {
+#big-map {
     width: 100%;
     height: 90vh;
+}
+
+#small-map {
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%;
 }
 
 @import "~bulma";

@@ -18,6 +18,8 @@
         "react"
     ],
     "rules": {
-        "import/extensions": "always"
+        "import/extensions": "always",
+        "no-static-element-interactions": "off",
+        "click-events-have-key-events": "off"
     }
 }

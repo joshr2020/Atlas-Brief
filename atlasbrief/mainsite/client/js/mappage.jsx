@@ -6,7 +6,7 @@ import Map from "./map-component.jsx";
 const MapPage = () => (
   <div>
     <NavBar />
-    <Map viewCountry={null} />
+    <Map viewCountry={null} id="big-map" />
   </div>
 );
 

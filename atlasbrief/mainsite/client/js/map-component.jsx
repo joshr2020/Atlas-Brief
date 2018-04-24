@@ -1,8 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import mapboxgl from "mapbox-gl";
-
-// import { renderMap } from "./map.js";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXRsYXNicmllZiIsImEiOiJjamc0NWwxcTM4NzloMzBwb3FtYjN5YzBoIn0.9sx6scC-AwUx_6KG_Jrkow";
@@ -19,14 +16,12 @@ class Map extends React.Component {
 
   render() {
     return (
-      <div>
-        <div
-          id="map"
-          ref={el => {
-            this.mapContainer = el;
-          }}
-        />
-      </div>
+      <div
+        id={this.props.id}
+        ref={el => {
+          this.mapContainer = el;
+        }}
+      />
     );
   }
 }

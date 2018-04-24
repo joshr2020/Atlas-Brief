@@ -33,6 +33,9 @@ class InfoColumn extends React.Component {
 
     return (
       <div className="column is-two-fifths">
+        <Map viewCountry={this.props.countryName} id="small-map" />
+
+        <hr />
         <div className="buttons has-addons is-centered">
           <span
             className="button"
@@ -47,9 +50,10 @@ class InfoColumn extends React.Component {
             Stats
           </span>
         </div>
-        <section className="section">{visibleInfo}</section>
 
-        <Map viewCountry={this.props.countryName} />
+        <section style={{ padding: 0 }} className="section">
+          {visibleInfo}
+        </section>
       </div>
     );
   }
