@@ -6,31 +6,34 @@ const timeStampToReadable = timestamp => {
   return `${d.toLocaleString()}`;
 };
 
-const BriefBox = props => (
-  <div className="box">
-    <article className="media">
-      <div>
-        <h3>
-          <strong>{props.content.title}</strong>
-        </h3>
-        <p>
-          By {props.content.author} updated at{" "}
-          {timeStampToReadable(props.content.timestamp)}
-        </p>
-        <p>{props.content.content}</p>
-        <a onClick={props.onReadMore}>Read More...</a>
-        <br />
-        <div className="tags">
-          {props.content.tags.map((tag, i) => (
-            <span key={i} className="tag">
-              {tag.name}
-            </span>
-          ))}
+const BriefBox = props => {
+		//const lastIndex = props.content.content.indexOf(" ", 300);
+  const visibleContent = props.content.content.substring(0, 300);
+  return (
+    <div className="box">
+      <article className="media">
+        <div>
+          <h3>
+            <strong>{props.content.title}</strong>
+          </h3>
+          <p>
+            By {props.content.author} updated at{" "}
+            {timeStampToReadable(props.content.timestamp)}
+          </p>
+		  <p>{visibleContent}<a onClick={props.onReadMore}>Read More...</a></p>
+          <br />
+          <div className="tags">
+            {props.content.tags.map((tag, i) => (
+              <span key={i} className="tag">
+                {tag.name}
+              </span>
+            ))}
+          </div>
         </div>
-      </div>
-    </article>
-  </div>
-);
+      </article>
+    </div>
+  );
+};
 
 const BriefModal = props => (
   <div className="modal is-active" style={{ zIndex: 2000 }}>
