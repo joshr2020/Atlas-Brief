@@ -6,38 +6,59 @@ const timeStampToReadable = timestamp => {
   return `${d.toLocaleString()}`;
 };
 
-const BriefBox = props => {
-  const visibleContent = props.content.content.substring(0, 300);
+class Brief extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { collapsed: true };
+    this.handleClick = this.handleClick.bind(this);
+  }
 
-  return (
-    <div className="box">
-      <article className="media">
-        <div>
-          <h3>
-            <strong>{props.content.title}</strong>
-          </h3>
-          <p>
-            By {props.content.author} updated at{" "}
-            {timeStampToReadable(props.content.timestamp)}
-          </p>
-          <p>
-            {visibleContent}
-            <a onClick={props.onReadMore}>Read More...</a>
-          </p>
-          <br />
-          <div className="tags">
-            {props.content.tags.map((tag, i) => (
-              <span key={i} className="tag">
-                {tag.name}
-              </span>
-            ))}
+  handleClick() {
+    const newState = { collapsed: !this.state.collapsed };
+    this.setState(newState);
+    console.log(this.state);
+  }
+
+  render() {
+    let visibleContent = this.props.content.content;
+    if (this.state.collapsed) {
+      visibleContent = visibleContent.substring(
+        0,
+        visibleContent.indexOf(" ", 300)
+      );
+    }
+
+    return (
+      <div className="box">
+        <article className="media">
+          <div>
+            <h3>
+              <strong>{this.props.content.title}</strong>
+            </h3>
+            <p>
+              By {this.props.content.author} updated at{" "}
+              {timeStampToReadable(this.props.content.timestamp)}
+            </p>
+            <p>
+              {visibleContent}
+              <a onClick={this.handleClick}> Read More...</a>
+            </p>
+            <br />
+            <div className="tags">
+              {this.props.content.tags.map((tag, i) => (
+                <span key={i} className="tag">
+                  {tag.name}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
-      </article>
-    </div>
-  );
-};
+        </article>
+      </div>
+    );
+  }
+}
 
+/*
 const BriefModal = props => (
   <div className="modal is-active" style={{ zIndex: 2000 }}>
     <div className="modal-background" onClick={props.onClose} />
@@ -84,5 +105,6 @@ class Brief extends React.Component {
     );
   }
 }
+*/
 
 export default Brief;
